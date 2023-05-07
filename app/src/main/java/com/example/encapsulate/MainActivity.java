@@ -2,46 +2,46 @@ package com.example.encapsulate;
 
 
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
-
-import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
-
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
 
-import java.io.IOException;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    List<Uri> imageList;
     Uri uri;
     Bitmap img;
     ImageView imageView;
+    RecyclerView imageRecycler;
     private final int CAMERA_REQ_CODE = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         imageView = findViewById(R.id.imageView);
+        imageRecycler = findViewById(R.id.imageRecycler);
         Button button = findViewById(R.id.uploadButton);
         Button button2 = findViewById(R.id.button2);
+        imageList = new ArrayList<>();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,15 +54,7 @@ public class MainActivity extends AppCompatActivity {
 //                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
                         .start();
 
-//                Intent iCam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                startActivityForResult(iCam,CAMERA_REQ_CODE);
-//
-////                ImagePicker.with(this)
-////
-//
-//                Intent intent = new Intent(Intent.ACTION_PICK);
-//                intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                activityResultLauncher.launch(intent);
+
             }
         });
 
@@ -86,16 +78,15 @@ public class MainActivity extends AppCompatActivity {
 
         Uri uri = data.getData();
         imageView.setImageURI(uri);
-//        if(requestCode == RESULT_OK){
+        imageList.add(uri);
+        Log.d("TAG", "listSize: "+imageList.size());
 
+    }
 
-//            Intent data = data.getData();
-//            if(requestCode == CAMERA_REQ_CODE){
-//                Bitmap img = (Bitmap)(data.getExtras().get("data"));
-//                imageView.setImageBitmap(img);
-//            }
-//        }
-
+    public String getFileExtension(Uri uri){
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(uri));
     }
 
 
