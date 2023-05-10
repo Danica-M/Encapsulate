@@ -17,6 +17,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
@@ -27,7 +28,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<Uri> imageList;
+    Controller controller;
+    List<Uri> imageList = new ArrayList<>();;
     Uri uri;
     Bitmap img;
     ImageView imageView;
@@ -41,18 +43,16 @@ public class MainActivity extends AppCompatActivity {
         imageRecycler = findViewById(R.id.imageRecycler);
         Button button = findViewById(R.id.uploadButton);
         Button button2 = findViewById(R.id.button2);
-        imageList = new ArrayList<>();
+        controller = new Controller();
+        Toast.makeText(this, "image size: "+controller.getUriList(), Toast.LENGTH_SHORT).show();
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                ImagePicker.with(MainActivity.this)
-                        .galleryOnly()
-                        .crop()	    			//Crop image(Optional), Check Customization for more option
-//                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
-//                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                        .start();
+                Intent intent = new Intent(MainActivity.this, uploadImage.class);
+                startActivity(intent);
 
 
             }
@@ -61,13 +61,14 @@ public class MainActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                ImagePicker.with(MainActivity.this)
-                        .cameraOnly()
-                        .crop()	    			//Crop image(Optional), Check Customization for more option
-//                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
-//                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                        .start();
+                Toast.makeText(MainActivity.this, "image size: "+controller.getUriList(), Toast.LENGTH_SHORT).show();
+                Log.d("TAG", "image size: "+controller.getUriList());
+//                ImagePicker.with(MainActivity.this)
+//                        .cameraOnly()
+//                        .crop()	    			//Crop image(Optional), Check Customization for more option
+////                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
+////                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+//                        .start();
             }
         });
 
