@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Controller {
     static List<String> uriList = new ArrayList<>();
-    List<String> captionList = new ArrayList<>();
+    static List<String> captionList = new ArrayList<>();
 
     public Controller() {
 

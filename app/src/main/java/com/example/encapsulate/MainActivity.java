@@ -6,6 +6,7 @@ package com.example.encapsulate;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -13,14 +14,13 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-
-import com.github.dhaval2404.imagepicker.ImagePicker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +39,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        imageView = findViewById(R.id.imageView);
         imageRecycler = findViewById(R.id.imageRecycler);
+        imageRecycler.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        StaggeredAdapter staggeredAdapter = new StaggeredAdapter(MainActivity.this, Controller.uriList, Controller.captionList );
+        imageRecycler.setAdapter(staggeredAdapter);
         Button button = findViewById(R.id.uploadButton);
         Button button2 = findViewById(R.id.button2);
         controller = new Controller();
