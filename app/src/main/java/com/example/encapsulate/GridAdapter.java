@@ -13,14 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.net.URI;
 import java.util.List;
 
-public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.ViewHolder> {
+public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     List<String> imageList;
     List<String> captionList;
     Context context;
-    public StaggeredAdapter(Context context, List<String> imageList, List<String> captionList){
+    public GridAdapter(Context context, List<String> imageList, List<String> captionList){
         this.context = context;
         this.imageList = imageList;
         this.captionList = captionList;
@@ -42,14 +41,14 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.View
 
     @NonNull
     @Override
-    public StaggeredAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public GridAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.file_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StaggeredAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull GridAdapter.ViewHolder holder, int position) {
         holder.caption.setText(captionList.get(position));
         holder.image.setImageURI(Uri.parse(imageList.get(position)));
 

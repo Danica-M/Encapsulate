@@ -5,29 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    tools:context=".uploadImage">
+    tools:context=".Capture_Image">
 
     <Button
-        android:id="@+id/chooseBtn"
+        android:id="@+id/capturebtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Choose File"
+        android:text="Take a Photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView_1"
+        android:id="@+id/imageView_2"
         android:layout_width="0dp"
         android:layout_height="300dp"
         android:layout_marginTop="50dp"
-        app:layout_constraintEnd_toEndOf="@+id/chooseBtn"
-        app:layout_constraintStart_toStartOf="@+id/chooseBtn"
-        app:layout_constraintTop_toBottomOf="@+id/chooseBtn"
+        app:layout_constraintEnd_toEndOf="@+id/capturebtn"
+        app:layout_constraintStart_toStartOf="@+id/capturebtn"
+        app:layout_constraintTop_toBottomOf="@+id/capturebtn"
         app:srcCompat="@drawable/ic_photo_black_48dp" />
 
     <EditText
-        android:id="@+id/captionText_1"
+        android:id="@+id/captionText_2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -39,25 +39,25 @@
         android:maxLines="10"
         android:minLines="4"
         android:scrollbars="vertical"
-        app:layout_constraintEnd_toEndOf="@+id/imageView_1"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_1" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView_2" />
 
     <Button
-        android:id="@+id/addBtn_1"
+        android:id="@+id/addBtn_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="Add"
-        app:layout_constraintEnd_toEndOf="@+id/captionText_1"
-        app:layout_constraintTop_toBottomOf="@+id/captionText_1" />
+        app:layout_constraintEnd_toEndOf="@+id/captionText_2"
+        app:layout_constraintTop_toBottomOf="@+id/captionText_2" />
 
     <Button
-        android:id="@+id/cancelBtn_1"
+        android:id="@+id/cancelBtn_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="cancel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/captionText_1" />
+        app:layout_constraintTop_toBottomOf="@+id/captionText_2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

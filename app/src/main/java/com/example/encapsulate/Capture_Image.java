@@ -14,29 +14,28 @@ import android.widget.Toast;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
 
-public class uploadImage extends AppCompatActivity {
-
+public class Capture_Image extends AppCompatActivity {
     Uri uri;
     Controller controller;
     ImageView imgView;
     EditText et_caption;
-    Button chooseBtn, addBtn, cancelBtn;
+    Button captureBtn, addBtn, cancelBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_image);
-        imgView = findViewById(R.id.imageView_1);
-        et_caption = findViewById(R.id.captionText_1);
-        chooseBtn = findViewById(R.id.chooseBtn);
-        addBtn = findViewById(R.id.addBtn_1);
-        cancelBtn = findViewById(R.id.cancelBtn_1);
+        setContentView(R.layout.activity_capture_image);
+        imgView = findViewById(R.id.imageView_2);
+        et_caption = findViewById(R.id.captionText_2);
+        captureBtn = findViewById(R.id.capturebtn);
+        addBtn = findViewById(R.id.addBtn_2);
+        cancelBtn = findViewById(R.id.cancelBtn_2);
         controller = new Controller();
 
-        chooseBtn.setOnClickListener(new View.OnClickListener() {
+        captureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ImagePicker.with(uploadImage.this)
-                        .galleryOnly()
+                ImagePicker.with(Capture_Image.this)
+                        .cameraOnly()
                         .cropSquare()	    			//Crop image(Optional), Check Customization for more option
 //                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
                         .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
@@ -46,7 +45,7 @@ public class uploadImage extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(uploadImage.this, MainActivity.class);
+                Intent intent = new Intent(Capture_Image.this, MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -57,10 +56,10 @@ public class uploadImage extends AppCompatActivity {
                 if(uri!=null){
                     Controller.addItem(String.valueOf(uri));
                     controller.addCaptionItem(et_caption.getText().toString());
-                    Intent intent = new Intent(uploadImage.this, MainActivity.class);
+                    Intent intent = new Intent(Capture_Image.this, MainActivity.class);
                     startActivity(intent);
                 }else{
-                    Toast.makeText(uploadImage.this, "No file selected",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Capture_Image.this, "No file selected",Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -76,4 +75,5 @@ public class uploadImage extends AppCompatActivity {
 
 
     }
+
 }

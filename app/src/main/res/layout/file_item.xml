@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="2dp"
-    app:cardBackgroundColor="#ED9F9F"
+    app:cardBackgroundColor="#EFEBEB"
     app:cardCornerRadius="15dp"
-    app:cardElevation="4dp"
+    app:cardElevation="5dp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true"
     app:contentPadding="10dp">
@@ -16,7 +16,7 @@
         it is used only for reference how it will look"-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/delBtn"
@@ -25,7 +25,7 @@
             android:layout_marginTop="2dp"
             android:layout_marginEnd="2dp"
             android:clickable="true"
-            app:backgroundTint="#F33939"
+            app:backgroundTint="#F46363"
             app:fabSize="mini"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -34,27 +34,26 @@
         <ImageView
             android:id="@+id/image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
+            android:layout_height="150dp"
             android:scaleType="fitXY"
             android:src="@mipmap/ic_launcher"
-            app:layout_constraintBottom_toTopOf="@+id/cap"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/cap"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:scrollbars="vertical"
             android:text="TextView"
             android:textAlignment="viewStart"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/image"
-            app:layout_constraintStart_toStartOf="@+id/image" />
+            app:layout_constraintStart_toStartOf="@+id/image"
+            app:layout_constraintTop_toBottomOf="@+id/image" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

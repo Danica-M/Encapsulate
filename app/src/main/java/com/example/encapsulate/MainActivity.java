@@ -5,8 +5,8 @@ package com.example.encapsulate;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -14,7 +14,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -40,37 +39,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         imageRecycler = findViewById(R.id.imageRecycler);
-        imageRecycler.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        StaggeredAdapter staggeredAdapter = new StaggeredAdapter(MainActivity.this, Controller.uriList, Controller.captionList );
-        imageRecycler.setAdapter(staggeredAdapter);
+        imageRecycler.setLayoutManager(new GridLayoutManager(this,2));
+        GridAdapter gridAdapter = new GridAdapter(MainActivity.this, Controller.uriList, Controller.captionList );
+        imageRecycler.setAdapter(gridAdapter);
         Button button = findViewById(R.id.uploadButton);
         Button button2 = findViewById(R.id.button2);
         controller = new Controller();
-        Toast.makeText(this, "image size: "+controller.getUriList(), Toast.LENGTH_SHORT).show();
-
+        Toast.makeText(this, "image size: "+controller.getUriList().size(), Toast.LENGTH_SHORT).show();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(MainActivity.this, uploadImage.class);
                 startActivity(intent);
-
-
             }
         });
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "image size: "+controller.getUriList(), Toast.LENGTH_SHORT).show();
-                Log.d("TAG", "image size: "+controller.getUriList());
-//                ImagePicker.with(MainActivity.this)
-//                        .cameraOnly()
-//                        .crop()	    			//Crop image(Optional), Check Customization for more option
-////                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
-////                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-//                        .start();
+                Intent intent = new Intent(MainActivity.this, Capture_Image.class);
+                startActivity(intent);
             }
         });
 
