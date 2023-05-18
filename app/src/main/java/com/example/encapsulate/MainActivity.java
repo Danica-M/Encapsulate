@@ -8,18 +8,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.webkit.MimeTypeMap;
+
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+
+import com.example.encapsulate.models.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,21 +34,40 @@ public class MainActivity extends AppCompatActivity {
     Bitmap img;
     ImageView imageView;
     RecyclerView imageRecycler;
-    private final int CAMERA_REQ_CODE = 100;
+    Button upload, capture, cancel, create;
+    GridAdapter gridAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         imageRecycler = findViewById(R.id.imageRecycler);
         imageRecycler.setLayoutManager(new GridLayoutManager(this,2));
-        GridAdapter gridAdapter = new GridAdapter(MainActivity.this, Controller.uriList, Controller.captionList );
+        gridAdapter = new GridAdapter(MainActivity.this, Controller.fileList);
         imageRecycler.setAdapter(gridAdapter);
-        Button button = findViewById(R.id.uploadButton);
-        Button button2 = findViewById(R.id.button2);
+        upload = findViewById(R.id.uploadButton);
+        capture = findViewById(R.id.capBtn);
+        cancel = findViewById(R.id.cancelBtn);
+        create = findViewById(R.id.createBtn);
         controller = new Controller();
         Toast.makeText(this, "image size: "+controller.getUriList().size(), Toast.LENGTH_SHORT).show();
 
-        button.setOnClickListener(new View.OnClickListener() {
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                controller.NewList();
+                Intent intent = new Intent(MainActivity.this, Home.class);
+                startActivity(intent);
+            }
+        });
+
+        create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "create clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+        upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, uploadImage.class);
@@ -55,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        button2.setOnClickListener(new View.OnClickListener() {
+        capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, Capture_Image.class);
@@ -75,11 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public String getFileExtension(Uri uri){
-        ContentResolver cr = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cr.getType(uri));
-    }
+
 
 
 }

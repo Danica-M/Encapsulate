@@ -11,18 +11,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.encapsulate.models.File;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
 public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
-    List<String> imageList;
-    List<String> captionList;
+    List<File> recyclerFileList;
     Context context;
-    public GridAdapter(Context context, List<String> imageList, List<String> captionList){
+    public GridAdapter(Context context, List<File> recyclerFileList){
         this.context = context;
-        this.imageList = imageList;
-        this.captionList = captionList;
+        this.recyclerFileList = recyclerFileList;
 
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -35,7 +34,6 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
             image = view.findViewById(R.id.image);
             delBtn = view.findViewById(R.id.delBtn);
             caption = view.findViewById(R.id.cap);
-
         }
     }
 
@@ -49,13 +47,13 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull GridAdapter.ViewHolder holder, int position) {
-        holder.caption.setText(captionList.get(position));
-        holder.image.setImageURI(Uri.parse(imageList.get(position)));
+        holder.caption.setText(recyclerFileList.get(position).getCaption());
+        holder.image.setImageURI(Uri.parse(recyclerFileList.get(position).getFileUri()));
 
     }
 
     @Override
     public int getItemCount() {
-        return imageList.size();
+        return recyclerFileList.size();
     }
 }

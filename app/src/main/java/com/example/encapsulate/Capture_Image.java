@@ -3,15 +3,19 @@ package com.example.encapsulate;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.encapsulate.models.Controller;
+import com.example.encapsulate.models.File;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 
 public class Capture_Image extends AppCompatActivity {
@@ -36,9 +40,8 @@ public class Capture_Image extends AppCompatActivity {
             public void onClick(View view) {
                 ImagePicker.with(Capture_Image.this)
                         .cameraOnly()
-                        .cropSquare()	    			//Crop image(Optional), Check Customization for more option
-//                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .cropSquare()
+                        .maxResultSize(1080, 1080)
                         .start();
             }
         });
@@ -54,14 +57,16 @@ public class Capture_Image extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(uri!=null){
-                    Controller.addItem(String.valueOf(uri));
-                    controller.addCaptionItem(et_caption.getText().toString());
+                    String type = getFileExtension(uri);
+                    String cap = et_caption.getText().toString();
+                    File newF = new File(String.valueOf(Controller.fileList.size()+1),"",cap, String.valueOf(uri), type);
+
+                    Controller.addItem(newF);
                     Intent intent = new Intent(Capture_Image.this, MainActivity.class);
                     startActivity(intent);
                 }else{
                     Toast.makeText(Capture_Image.this, "No file selected",Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }
@@ -71,9 +76,11 @@ public class Capture_Image extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         uri = data.getData();
         imgView.setImageURI(uri);
-
-
-
+    }
+    public String getFileExtension(Uri uri){
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(uri));
     }
 
 }

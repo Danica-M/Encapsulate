@@ -3,15 +3,19 @@ package com.example.encapsulate;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.encapsulate.models.Controller;
+import com.example.encapsulate.models.File;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 
 public class uploadImage extends AppCompatActivity {
@@ -55,8 +59,12 @@ public class uploadImage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(uri!=null){
-                    Controller.addItem(String.valueOf(uri));
-                    controller.addCaptionItem(et_caption.getText().toString());
+                    String type = getFileExtension(uri);
+                    String cap = et_caption.getText().toString();
+                    File newF = new File(String.valueOf(Controller.fileList.size()+1),"",cap, String.valueOf(uri), type);
+
+                    Controller.addItem(newF);
+
                     Intent intent = new Intent(uploadImage.this, MainActivity.class);
                     startActivity(intent);
                 }else{
@@ -75,5 +83,11 @@ public class uploadImage extends AppCompatActivity {
 
 
 
+    }
+
+    public String getFileExtension(Uri uri){
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(uri));
     }
 }

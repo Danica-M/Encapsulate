@@ -29,8 +29,8 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Description"
-            app:layout_constraintEnd_toStartOf="@+id/button2"
-            app:layout_constraintStart_toEndOf="@+id/uploadButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
             app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
 
         <EditText
@@ -65,7 +65,7 @@
             app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName4" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/capBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
@@ -88,7 +88,7 @@
             app:layout_constraintTop_toBottomOf="@+id/uploadButton" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/cancelBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
@@ -96,7 +96,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageRecycler" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/createBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Create"
