@@ -40,7 +40,7 @@ public class Capture_Image extends AppCompatActivity {
             public void onClick(View view) {
                 ImagePicker.with(Capture_Image.this)
                         .cameraOnly()
-                        .cropSquare()
+//                        .cropSquare()
                         .maxResultSize(1080, 1080)
                         .start();
             }

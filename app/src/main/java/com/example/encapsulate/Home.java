@@ -1,24 +1,98 @@
 package com.example.encapsulate;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
+import com.example.encapsulate.fragments.Capsule_Fragment;
+import com.example.encapsulate.fragments.Home_Fragment;
+import com.example.encapsulate.fragments.Profile_Fragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 
-import com.google.android.material.navigation.NavigationView;
+public class Home extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
-public class Home extends AppCompatActivity {
-
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-
+    BottomNavigationView bottomNavigationView;
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.home_nav);
+
+        fab = findViewById(R.id.fab);
+        bottomNavigationView = findViewById(R.id.bottomNavBar);
+        bottomNavigationView.setBackground(null);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.home);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Home.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.home:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout, new Home_Fragment())
+                        .commit();
+                return true;
+
+            case R.id.capsule:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout, new Capsule_Fragment())
+                        .commit();
+                return true;
+
+            case R.id.profile:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout, new Profile_Fragment())
+                        .commit();
+                return true;
+            case R.id.exit:
+                logoutUser();
+//                Toast.makeText(this, "Exit Clicked", Toast.LENGTH_SHORT).show();
+
+        }
+        return false;
+    }
+
+    private void logoutUser(){
+        new androidx.appcompat.app.AlertDialog.Builder(Home.this)
+                .setTitle("Exit Confirmation")
+                .setMessage("Are you sure you want to log out?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent nlIntent = new Intent(Home.this, Login.class);
+                        startActivity(nlIntent);
+                        finishAffinity();
+                        FirebaseAuth.getInstance().signOut();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).show();
     }
 }

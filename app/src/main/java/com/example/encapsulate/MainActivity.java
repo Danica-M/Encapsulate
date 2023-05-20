@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         cancel = findViewById(R.id.cancelBtn);
         create = findViewById(R.id.createBtn);
         controller = new Controller();
-        Toast.makeText(this, "image size: "+controller.getUriList().size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "image size: "+controller.getFileList().size(), Toast.LENGTH_SHORT).show();
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,9 +91,15 @@ public class MainActivity extends AppCompatActivity {
         Uri uri = data.getData();
         imageView.setImageURI(uri);
         imageList.add(uri);
-        Log.d("TAG", "listSize: "+imageList.size());
+
+        if(Controller.getFileList().size()== Controller.Capacity){
+            upload.setEnabled(false);
+            capture.setEnabled(false);
+        }
 
     }
+
+
 
 
 

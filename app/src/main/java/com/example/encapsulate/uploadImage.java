@@ -40,8 +40,9 @@ public class uploadImage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ImagePicker.with(uploadImage.this)
+                        .crop()
                         .galleryOnly()
-                        .cropSquare()	    			//Crop image(Optional), Check Customization for more option
+//                        .cropSquare()	    			//Crop image(Optional), Check Customization for more option
 //                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
                         .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
                         .start();

@@ -10,6 +10,12 @@
             android:id="@+id/capsule"
             android:title="Capsules"
             android:icon="@drawable/icon_capsules"/>
+
+        <item
+            android:id="@+id/fabPlaceholder"
+            android:title=""
+            android:enabled="false"/>
+
         <item
             android:id="@+id/profile"
             android:title="Profile"

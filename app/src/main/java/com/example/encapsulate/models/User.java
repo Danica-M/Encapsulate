@@ -1,11 +1,17 @@
 package com.example.encapsulate.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
     String userID;
     String firstName;
     String lastName;
     String email;
     String password;
+    List<TimeCapsule> timeCaps;
+
+    public User(){}
 
     public User(String userID, String firstName, String lastName, String email, String password) {
         this.userID = userID;
@@ -13,6 +19,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        timeCaps = new ArrayList<>();
     }
 
     public String getUserID() {
@@ -53,5 +60,12 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<TimeCapsule> getTimeCaps() {
+        return timeCaps;
+    }
+    public void setTimeCaps(TimeCapsule tc) {
+        timeCaps.add(tc);
     }
 }

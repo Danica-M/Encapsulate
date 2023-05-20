@@ -7,6 +7,7 @@ public class File {
     String fileUri;
     String fileType;
 
+    public File(){}
     public File(String fileID, String fileUrl, String caption, String fileUri, String fileType) {
         this.fileID = fileID;
         this.fileUrl = fileUrl;

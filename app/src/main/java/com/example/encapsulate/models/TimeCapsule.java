@@ -10,6 +10,7 @@ public class TimeCapsule {
     String pin;
     Integer fileCapacity;
 
+    public TimeCapsule(){}
     public TimeCapsule(String capsuleID, String capsuleName, String description, String location, Boolean isOpen, String openDate, String pin) {
         this.capsuleID = capsuleID;
         this.capsuleName = capsuleName;
