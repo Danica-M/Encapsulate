@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.encapsulate.models.Controller;
 import com.example.encapsulate.models.File;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -47,9 +48,17 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull GridAdapter.ViewHolder holder, int position) {
+        int rec_position = position;
         holder.caption.setText(recyclerFileList.get(position).getCaption());
-        holder.image.setImageURI(Uri.parse(recyclerFileList.get(position).getFileUri()));
-
+        holder.image.setImageURI(Uri.parse(recyclerFileList.get(rec_position).getFileUri()));
+        holder.delBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                recyclerFileList.remove(rec_position);
+//                Controller.removeItem(recyclerFileList.get(rec_position));
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override

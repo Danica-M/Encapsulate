@@ -12,7 +12,6 @@ public class File {
         this.fileID = fileID;
         this.fileUrl = fileUrl;
         this.caption = caption;
-        this.fileUri = fileUri;
         this.fileType = fileType;
     }
 

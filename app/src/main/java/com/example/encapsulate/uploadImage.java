@@ -7,6 +7,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -66,8 +67,11 @@ public class uploadImage extends AppCompatActivity {
 
                     Controller.addItem(newF);
 
-                    Intent intent = new Intent(uploadImage.this, MainActivity.class);
-                    startActivity(intent);
+                    Toast.makeText(uploadImage.this, "Reached",Toast.LENGTH_SHORT).show();
+                    Log.d("TAG", "array:"+ Controller.getFileList().get(0).getFileUri());
+
+//                    Intent intent = new Intent(uploadImage.this, MainActivity.class);
+//                    startActivity(intent);
                 }else{
                     Toast.makeText(uploadImage.this, "No file selected",Toast.LENGTH_SHORT).show();
                 }
@@ -81,6 +85,7 @@ public class uploadImage extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         uri = data.getData();
         imgView.setImageURI(uri);
+        Log.d("TAG", "uri:"+ uri);
 
 
 

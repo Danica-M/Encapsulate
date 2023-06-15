@@ -73,7 +73,7 @@ public class Login extends AppCompatActivity {
                                             finishAffinity();
                                             Intent intent = new Intent(Login.this, Home.class);
                                             startActivity(intent);
-                                            Toast.makeText(Login.this, "you are logged in successfully", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(Login.this, "you are logged in successfully", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                     @Override
