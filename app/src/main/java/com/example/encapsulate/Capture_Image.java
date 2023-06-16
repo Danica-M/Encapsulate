@@ -59,7 +59,7 @@ public class Capture_Image extends AppCompatActivity {
                 if(uri!=null){
                     String type = getFileExtension(uri);
                     String cap = et_caption.getText().toString();
-                    File newF = new File(String.valueOf(Controller.fileList.size()+1),"",cap, String.valueOf(uri), type);
+                    File newF = new File("",cap, type);
 
                     Controller.addItem(newF);
                     Intent intent = new Intent(Capture_Image.this, MainActivity.class);

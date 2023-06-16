@@ -1,8 +1,10 @@
 package com.example.encapsulate;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,24 +20,34 @@ import android.widget.Toast;
 import com.example.encapsulate.models.Controller;
 import com.example.encapsulate.models.File;
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class uploadImage extends AppCompatActivity {
 
+    Intent intent2;
     Uri uri;
-    Controller controller;
     ImageView imgView;
     EditText et_caption;
     Button chooseBtn, addBtn, cancelBtn;
+    ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_upload_image);
         imgView = findViewById(R.id.imageView_1);
         et_caption = findViewById(R.id.captionText_1);
         chooseBtn = findViewById(R.id.chooseBtn);
         addBtn = findViewById(R.id.addBtn_1);
         cancelBtn = findViewById(R.id.cancelBtn_1);
-        controller = new Controller();
+
+        intent2 = getIntent();
+        String cip = intent2.getStringExtra("id");
+
 
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,28 +66,72 @@ public class uploadImage extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(uploadImage.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(uri!=null){
+                if (uri != null) {
+//                    progressDialog = new ProgressDialog(getApplicationContext());
+//                    progressDialog.setTitle("Loading");
+//                    progressDialog.show();
+
                     String type = getFileExtension(uri);
                     String cap = et_caption.getText().toString();
-                    File newF = new File(String.valueOf(Controller.fileList.size()+1),"",cap, String.valueOf(uri), type);
 
-                    Controller.addItem(newF);
 
-                    Toast.makeText(uploadImage.this, "Reached",Toast.LENGTH_SHORT).show();
-                    Log.d("TAG", "array:"+ Controller.getFileList().get(0).getFileUri());
+                    Controller.countplus();
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference(cip + "/"+Controller.counter);
+                    storageReference.putFile(uri)
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri downloadUri) {
+                                            String downloadUrl = downloadUri.toString();
+                                            // Use the download URL as needed
+                                            Log.d("TAG", "dURL: " + downloadUrl);
+                                            File newF = new File(downloadUrl, cap, type);
+                                            Toast.makeText(uploadImage.this, "Image added successfully", Toast.LENGTH_SHORT).show();
 
+                                        }
+                                        });
+//                                    Log.d("TAG", "dURL: "+taskSnapshot.getTask().getResult().getStorage().getDownloadUrl().toString());
+////                                    File newF = new File(taskSnapshot.getDownloadUrl,cap, type);
+//                                    Toast.makeText(uploadImage.this, "Image added successfully", Toast.LENGTH_SHORT).show();
+////                                    if (progressDialog.isShowing())
+////                                        progressDialog.dismiss();
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(uploadImage.this, "Image added successfully", Toast.LENGTH_SHORT).show();
+//                                    if (progressDialog.isShowing())
+//                                        progressDialog.dismiss();
+                                }
+                            });
+
+
+//                    String type = getFileExtension(uri);
+//                    String cap = et_caption.getText().toString();
+//                    File newF = new File(String.valueOf(Controller.fileList.size()+1),"",cap, uri.toString(), type);
+//
+//                    Log.d("TAG", "uris:" + uri.toString());
+//                    Controller.addItem(newF);
+//
+//                    Toast.makeText(uploadImage.this, "image size: "+Controller.getFileList().size(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(uploadImage.this, "Image added successfully", Toast.LENGTH_SHORT).show();
 //                    Intent intent = new Intent(uploadImage.this, MainActivity.class);
 //                    startActivity(intent);
-                }else{
-                    Toast.makeText(uploadImage.this, "No file selected",Toast.LENGTH_SHORT).show();
-                }
+//                    finish();
 
+                } else {
+                    Toast.makeText(uploadImage.this, "No file selected", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -83,9 +139,11 @@ public class uploadImage extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        uri = data.getData();
-        imgView.setImageURI(uri);
-        Log.d("TAG", "uri:"+ uri);
+        if (resultCode == RESULT_OK && data != null) {
+            uri = data.getData();
+            imgView.setImageURI(uri);
+            Log.d("TAG", "uri:" + uri);
+        }
 
 
 

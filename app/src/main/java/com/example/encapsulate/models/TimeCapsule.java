@@ -1,25 +1,30 @@
 package com.example.encapsulate.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TimeCapsule {
     String capsuleID;
     String capsuleName;
-    String Description;
+    String description;
     String location;
     Boolean isOpen;
     String openDate;
     String pin;
     Integer fileCapacity;
+    private List<File> uploads;
 
     public TimeCapsule(){}
     public TimeCapsule(String capsuleID, String capsuleName, String description, String location, Boolean isOpen, String openDate, String pin) {
         this.capsuleID = capsuleID;
         this.capsuleName = capsuleName;
-        Description = description;
+        this.description = description;
         this.location = location;
         this.isOpen = isOpen;
         this.openDate = openDate;
         this.pin = pin;
         this.fileCapacity = 20;
+        this.uploads = new ArrayList<>();
     }
 
     public String getCapsuleID() {
@@ -39,11 +44,11 @@ public class TimeCapsule {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public String getLocation() {
@@ -84,5 +89,13 @@ public class TimeCapsule {
 
     public void setFileCapacity(Integer fileCapacity) {
         this.fileCapacity = fileCapacity;
+    }
+
+    public List<File> getUploads() {
+        return uploads;
+    }
+
+    public void setUploads(List<File> uploads) {
+        this.uploads = uploads;
     }
 }

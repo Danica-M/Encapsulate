@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 
 import com.example.encapsulate.models.Controller;
+import com.example.encapsulate.models.TimeCapsule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,15 +36,15 @@ public class MainActivity extends AppCompatActivity {
 
     Uri uri;
     Bitmap bitmap;
-    TextView openDateLabel;
-    EditText name, desc, loc, openDate;
+    TextView openDateLabel, pinLabel;
+    EditText name, desc, loc, openDate, pin;
     Switch isOpen;
     Controller controller;
     List<Uri> imageList = new ArrayList<>();;
     ImageView imageView;
-    RecyclerView imageRecycler;
-    Button upload, capture, cancel, create;
-    GridAdapter gridAdapter;
+    TimeCapsule timeCapsule;
+    Button cancel, create;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,24 +53,21 @@ public class MainActivity extends AppCompatActivity {
 
         controller = new Controller();
         openDateLabel = findViewById(R.id.textView5);
+        pinLabel = findViewById(R.id.textView6);
         name = findViewById(R.id.name);
         desc = findViewById(R.id.description);
         loc = findViewById(R.id.location);
         isOpen = findViewById(R.id.isOpenSwitch);
         openDate = findViewById(R.id.openDate);
-
-
-        upload = findViewById(R.id.uploadButton);
-        capture = findViewById(R.id.capBtn);
+        pin = findViewById(R.id.pin);
         cancel = findViewById(R.id.cancelBtn);
         create = findViewById(R.id.createBtn);
 
-        imageRecycler = findViewById(R.id.imageRecycler);
-        imageRecycler.setLayoutManager(new GridLayoutManager(this,2));
-        gridAdapter = new GridAdapter(MainActivity.this, Controller.fileList);
-        imageRecycler.setAdapter(gridAdapter);
+
+
 
         Toast.makeText(this, "image size: "+controller.getFileList().size(), Toast.LENGTH_SHORT).show();
+        Log.d("TAG", ":" + uri);
 
         isOpen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -78,41 +77,71 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "ON", Toast.LENGTH_SHORT).show();
                     openDate.setVisibility(View.VISIBLE);
                     openDateLabel.setVisibility(View.VISIBLE);
+                    pin.setVisibility(View.VISIBLE);
+                    pinLabel.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(MainActivity.this, "OFF", Toast.LENGTH_SHORT).show();
                     openDate.setVisibility(View.INVISIBLE);
                     openDateLabel.setVisibility(View.INVISIBLE);
+                    pin.setVisibility(View.INVISIBLE);
+                    pinLabel.setVisibility(View.INVISIBLE);
                 }
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.NewList();
-                Intent intent = new Intent(MainActivity.this, Home.class);
-                startActivity(intent);
+//                controller.NewList();
+                if(timeCapsule==null){
+                    Intent intent = new Intent(MainActivity.this, Home.class);
+                    startActivity(intent);
+                }else{
+                    controller.deleteTimeCapsule(timeCapsule.getCapsuleID(), getApplicationContext());
+                    Intent intent = new Intent(MainActivity.this, Home.class);
+                    startActivity(intent);
+                }
+
             }
         });
 
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "create clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
-        upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, uploadImage.class);
-                startActivity(intent);
-            }
-        });
+                String tName, tDesc, tLoc, tOpenDate, tPin;
+                boolean stat = isOpen.isChecked();
 
-        capture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Capture_Image.class);
-                startActivity(intent);
+                tName = name.getText().toString();
+                tDesc = desc.getText().toString();
+                tLoc = loc.getText().toString();
+                tOpenDate = openDate.getText().toString();
+                tPin = pin.getText().toString();
+                Toast.makeText(MainActivity.this, "create clicked", Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(tName) || TextUtils.isEmpty(tDesc) || TextUtils.isEmpty(tLoc)){
+                    Toast.makeText(MainActivity.this, "Please Complete all fields", Toast.LENGTH_SHORT).show();
+                    if(stat){
+                        if(TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin)){
+                            Toast.makeText(MainActivity.this, "Please Complete all fields", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                        try{
+                            timeCapsule = controller.addTimeCapsule(tName, tDesc, tLoc, stat, tOpenDate, tPin);
+                            if(timeCapsule != null){
+                                Intent nIntent = new Intent(MainActivity.this, FileUpload.class);
+                                nIntent.putExtra("id", timeCapsule.getCapsuleID());
+                                startActivity(nIntent);
+
+
+
+
+                            }
+
+                        }catch (Exception ex){
+                            Toast.makeText(MainActivity.this, "Error Occurred: " + ex.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+                }
             }
         });
 

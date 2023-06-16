@@ -35,6 +35,15 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
             image = view.findViewById(R.id.image);
             delBtn = view.findViewById(R.id.delBtn);
             caption = view.findViewById(R.id.cap);
+
+            delBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                recyclerFileList.remove(rec_position);
+//                Controller.removeItem(recyclerFileList.get(rec_position));
+                    notifyDataSetChanged();
+                }
+            });
         }
     }
 
@@ -49,16 +58,16 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull GridAdapter.ViewHolder holder, int position) {
         int rec_position = position;
+        File file = recyclerFileList.get(position);
         holder.caption.setText(recyclerFileList.get(position).getCaption());
-        holder.image.setImageURI(Uri.parse(recyclerFileList.get(rec_position).getFileUri()));
-        holder.delBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                recyclerFileList.remove(rec_position);
-//                Controller.removeItem(recyclerFileList.get(rec_position));
-                notifyDataSetChanged();
-            }
-        });
+//        String fileUri = file.getFileUri();
+//        if (fileUri != null) {
+//            Uri uri = Uri.parse(fileUri);
+//            holder.image.setImageURI(uri);
+//        } else {
+//            holder.image.setImageDrawable(null);
+//        }
+
     }
 
     @Override
