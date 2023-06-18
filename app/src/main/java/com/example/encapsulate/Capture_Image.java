@@ -1,12 +1,15 @@
 package com.example.encapsulate;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -17,6 +20,14 @@ import android.widget.Toast;
 import com.example.encapsulate.models.Controller;
 import com.example.encapsulate.models.File;
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Capture_Image extends AppCompatActivity {
     Uri uri;
@@ -24,6 +35,8 @@ public class Capture_Image extends AppCompatActivity {
     ImageView imgView;
     EditText et_caption;
     Button captureBtn, addBtn, cancelBtn;
+    ProgressDialog progressDialog;
+    Intent intent3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +47,8 @@ public class Capture_Image extends AppCompatActivity {
         addBtn = findViewById(R.id.addBtn_2);
         cancelBtn = findViewById(R.id.cancelBtn_2);
         controller = new Controller();
+        intent3 = getIntent();
+        String cip = intent3.getStringExtra("id");
 
         captureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,26 +71,85 @@ public class Capture_Image extends AppCompatActivity {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(uri!=null){
+                if (uri != null) {
+//                    progressDialog = new ProgressDialog(getApplicationContext());
+//                    progressDialog.setTitle("Loading");
+//                    progressDialog.show();
+
                     String type = getFileExtension(uri);
                     String cap = et_caption.getText().toString();
-                    File newF = new File("",cap, type);
 
-                    Controller.addItem(newF);
-                    Intent intent = new Intent(Capture_Image.this, MainActivity.class);
-                    startActivity(intent);
-                }else{
-                    Toast.makeText(Capture_Image.this, "No file selected",Toast.LENGTH_SHORT).show();
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                    Date currentDate = new Date();
+                    String fileName = formatter.format(currentDate);
+
+                    Controller.countplus();
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference("images/"+fileName);
+                    storageReference.putFile(uri)
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri downloadUri) {
+                                            String downloadUrl = downloadUri.toString();
+                                            // Use the download URL as needed
+                                            Log.d("TAG", "dURL from cap: " + downloadUrl);
+                                            File newF = new File(downloadUrl, cap, type);
+                                            controller.addFile(cip, newF);
+                                            Toast.makeText(Capture_Image.this, "Image added successfully", Toast.LENGTH_SHORT).show();
+
+//                                            if (progressDialog.isShowing()){progressDialog.dismiss();}
+                                            Intent fIntent = new Intent(Capture_Image.this, FileUpload.class);
+                                            startActivity(fIntent);
+                                            finish();
+                                        }
+                                    });
+//                                    Log.d("TAG", "dURL: "+taskSnapshot.getTask().getResult().getStorage().getDownloadUrl().toString());
+////                                    File newF = new File(taskSnapshot.getDownloadUrl,cap, type);
+//                                    Toast.makeText(uploadImage.this, "Image added successfully", Toast.LENGTH_SHORT).show();
+////                                    if (progressDialog.isShowing())
+////                                        progressDialog.dismiss();
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(Capture_Image.this, "unsuccessfully", Toast.LENGTH_SHORT).show();
+//                                    if (progressDialog.isShowing())
+//                                        progressDialog.dismiss();
+                                }
+                            });
+
+
+//                    String type = getFileExtension(uri);
+//                    String cap = et_caption.getText().toString();
+//                    File newF = new File(String.valueOf(Controller.fileList.size()+1),"",cap, uri.toString(), type);
+//
+//                    Log.d("TAG", "uris:" + uri.toString());
+//                    Controller.addItem(newF);
+//
+//                    Toast.makeText(uploadImage.this, "image size: "+Controller.getFileList().size(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(uploadImage.this, "Image added successfully", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(uploadImage.this, MainActivity.class);
+//                    startActivity(intent);
+//                    finish();
+
+                } else {
+                    Toast.makeText(Capture_Image.this, "No file selected", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        uri = data.getData();
-        imgView.setImageURI(uri);
+        if (resultCode == RESULT_OK && data != null) {
+            uri = data.getData();
+            imgView.setImageURI(uri);
+        }
     }
     public String getFileExtension(Uri uri){
         ContentResolver cr = getContentResolver();

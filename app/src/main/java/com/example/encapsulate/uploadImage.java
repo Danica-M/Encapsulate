@@ -26,6 +26,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class uploadImage extends AppCompatActivity {
 
     Controller controller;
@@ -80,9 +83,12 @@ public class uploadImage extends AppCompatActivity {
                     String type = getFileExtension(uri);
                     String cap = et_caption.getText().toString();
 
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                    Date currentDate = new Date();
+                    String fileName = formatter.format(currentDate);
 
                     Controller.countplus();
-                    StorageReference storageReference = FirebaseStorage.getInstance().getReference(cip + "/"+Controller.counter);
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference("images/"+fileName);
                     storageReference.putFile(uri)
                             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
@@ -97,6 +103,7 @@ public class uploadImage extends AppCompatActivity {
                                             controller.addFile(cip, newF);
                                             Toast.makeText(uploadImage.this, "Image added successfully", Toast.LENGTH_SHORT).show();
 
+//                                            if (progressDialog.isShowing()){progressDialog.dismiss();}
                                             Intent fIntent = new Intent(uploadImage.this, FileUpload.class);
                                             startActivity(fIntent);
                                             finish();
@@ -147,9 +154,6 @@ public class uploadImage extends AppCompatActivity {
             imgView.setImageURI(uri);
             Log.d("TAG", "uri:" + uri);
         }
-
-
-
     }
 
     public String getFileExtension(Uri uri){
