@@ -129,7 +129,7 @@ public class Controller {
                             uploads = new ArrayList<>();
                         }
                         uploads.add(file);
-                        tRef.child("participants").setValue(uploads);
+                        tRef.child("uploads").setValue(uploads);
 
                     }
                 }

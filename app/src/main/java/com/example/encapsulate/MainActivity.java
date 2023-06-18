@@ -5,12 +5,8 @@ package com.example.encapsulate;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,7 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,20 +23,14 @@ import android.widget.Toast;
 import com.example.encapsulate.models.Controller;
 import com.example.encapsulate.models.TimeCapsule;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    Uri uri;
-    Bitmap bitmap;
     TextView openDateLabel, pinLabel;
     EditText name, desc, loc, openDate, pin;
     Switch isOpen;
     Controller controller;
-    List<Uri> imageList = new ArrayList<>();;
-    ImageView imageView;
     TimeCapsule timeCapsule;
     Button cancel, create;
 
@@ -63,11 +52,6 @@ public class MainActivity extends AppCompatActivity {
         cancel = findViewById(R.id.cancelBtn);
         create = findViewById(R.id.createBtn);
 
-
-
-
-        Toast.makeText(this, "image size: "+controller.getFileList().size(), Toast.LENGTH_SHORT).show();
-        Log.d("TAG", ":" + uri);
 
         isOpen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -115,12 +99,13 @@ public class MainActivity extends AppCompatActivity {
                 tLoc = loc.getText().toString();
                 tOpenDate = openDate.getText().toString();
                 tPin = pin.getText().toString();
-                Toast.makeText(MainActivity.this, "create clicked", Toast.LENGTH_SHORT).show();
-                if(TextUtils.isEmpty(tName) || TextUtils.isEmpty(tDesc) || TextUtils.isEmpty(tLoc)){
-                    Toast.makeText(MainActivity.this, "Please Complete all fields", Toast.LENGTH_SHORT).show();
-                    if(stat){
-                        if(TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin)){
-                            Toast.makeText(MainActivity.this, "Please Complete all fields", Toast.LENGTH_SHORT).show();
+                Log.d("TAG", "name: "+tName);
+
+                if(TextUtils.isEmpty(tName) || TextUtils.isEmpty(tDesc)){
+                    Toast.makeText(MainActivity.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
+                }else if(stat) {
+                    if (TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin)) {
+                        Toast.makeText(MainActivity.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
                     }
                 }else{
                         try{
@@ -138,9 +123,6 @@ public class MainActivity extends AppCompatActivity {
                         }catch (Exception ex){
                             Toast.makeText(MainActivity.this, "Error Occurred: " + ex.getMessage(), Toast.LENGTH_SHORT).show();
                         }
-
-
-                    }
                 }
             }
         });

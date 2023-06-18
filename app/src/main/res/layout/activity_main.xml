@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_margin="10dp"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/textView6"
@@ -19,7 +19,8 @@
             android:text="Pin"
             app:layout_constraintEnd_toEndOf="@+id/isOpenSwitch"
             app:layout_constraintStart_toEndOf="@+id/textView5"
-            app:layout_constraintTop_toBottomOf="@+id/isOpenSwitch" />
+            app:layout_constraintTop_toBottomOf="@+id/isOpenSwitch"
+            android:visibility="invisible"/>
 
         <TextView
             android:id="@+id/textView"
@@ -107,7 +108,8 @@
             android:text="Open Date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/isOpenSwitch"
-            app:layout_constraintTop_toBottomOf="@+id/isOpenSwitch" />
+            app:layout_constraintTop_toBottomOf="@+id/isOpenSwitch"
+            android:visibility="invisible"/>
 
 
         <EditText
@@ -124,7 +126,8 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView5"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            app:layout_constraintTop_toBottomOf="@+id/textView5"
+            android:visibility="invisible"/>
 
         <EditText
             android:id="@+id/pin"
@@ -140,23 +143,24 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/textView6"
             app:layout_constraintStart_toEndOf="@+id/openDate"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+            app:layout_constraintTop_toBottomOf="@+id/textView6"
+            android:visibility="invisible"/>
 
         <Button
             android:id="@+id/cancelBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="644dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/createBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Create"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:layout_editor_absoluteY="644dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Switch
             android:id="@+id/isOpenSwitch"
@@ -184,6 +188,12 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@+id/description"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            app:layout_constraintTop_toBottomOf="@+id/openDate"
+            tools:layout_editor_absoluteX="78dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

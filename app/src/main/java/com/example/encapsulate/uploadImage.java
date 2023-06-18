@@ -28,6 +28,7 @@ import com.google.firebase.storage.UploadTask;
 
 public class uploadImage extends AppCompatActivity {
 
+    Controller controller;
     Intent intent2;
     Uri uri;
     ImageView imgView;
@@ -37,8 +38,8 @@ public class uploadImage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_upload_image);
+        controller = new Controller();
         imgView = findViewById(R.id.imageView_1);
         et_caption = findViewById(R.id.captionText_1);
         chooseBtn = findViewById(R.id.chooseBtn);
@@ -64,9 +65,7 @@ public class uploadImage extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(uploadImage.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                onBackPressed();
             }
         });
 
@@ -95,8 +94,12 @@ public class uploadImage extends AppCompatActivity {
                                             // Use the download URL as needed
                                             Log.d("TAG", "dURL: " + downloadUrl);
                                             File newF = new File(downloadUrl, cap, type);
+                                            controller.addFile(cip, newF);
                                             Toast.makeText(uploadImage.this, "Image added successfully", Toast.LENGTH_SHORT).show();
 
+                                            Intent fIntent = new Intent(uploadImage.this, FileUpload.class);
+                                            startActivity(fIntent);
+                                            finish();
                                         }
                                         });
 //                                    Log.d("TAG", "dURL: "+taskSnapshot.getTask().getResult().getStorage().getDownloadUrl().toString());
@@ -109,7 +112,7 @@ public class uploadImage extends AppCompatActivity {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(uploadImage.this, "Image added successfully", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(uploadImage.this, "unsuccessfully", Toast.LENGTH_SHORT).show();
 //                                    if (progressDialog.isShowing())
 //                                        progressDialog.dismiss();
                                 }
