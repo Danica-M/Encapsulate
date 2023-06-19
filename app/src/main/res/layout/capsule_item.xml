@@ -43,12 +43,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Time Capsule Name"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/icon_desc"
                 android:text="Description"
                 android:textSize="18sp" />
 
@@ -56,6 +58,7 @@
                 android:id="@+id/tv_loc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/icon_location"
                 android:text="Location"
                 android:textSize="18sp" />
 
@@ -63,6 +66,7 @@
                 android:id="@+id/tv_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/icon_date"
                 android:text="Open Date"
                 android:textSize="18sp" />
         </LinearLayout>

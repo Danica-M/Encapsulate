@@ -32,7 +32,7 @@ public class FileUpload extends AppCompatActivity {
 
         imageRecycler = findViewById(R.id.imageRecycler);
         imageRecycler.setLayoutManager(new GridLayoutManager(this,2));
-        gridAdapter = new GridAdapter(FileUpload.this, Controller.fileList);
+        gridAdapter = new GridAdapter(FileUpload.this, Controller.fileList, 0);
         imageRecycler.setAdapter(gridAdapter);
 
         upload.setOnClickListener(new View.OnClickListener() {

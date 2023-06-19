@@ -35,6 +35,10 @@ import android.widget.Toast;
 import com.example.encapsulate.models.Controller;
 import com.example.encapsulate.models.TimeCapsule;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,11 +50,12 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity  implements LocationListener {
 
-    private LocationManager locationManager;
+    private LocationManager fusedLocationProvider;
     TextView openDateLabel, pinLabel;
     EditText name, desc, loc, openDate, pin;
     Switch isOpen;
@@ -60,6 +65,7 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
     double longitude;
     double latitude;
 
+    FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +88,7 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
         create = findViewById(R.id.createBtn);
         locationBtn = findViewById(R.id.locationBtn);
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         if (currentTCID != null && !currentTCID.isEmpty()) {getCurrentTC(currentTCID);}
 
@@ -192,32 +199,36 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
         locationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("TAG", "location Clicked");
-                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{
-                            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+
+                // Check for location permissions
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // Request permissions if not granted
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
                 } else {
-                    // Location permissions are already granted, proceed with your code
-
-                    if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        if (location != null) {
-                            onLocationChanged(location);
-
-                        } else {
-                            // Location is null, handle the case
-                            Log.d("TAG", "2unable");
-                            Toast.makeText(MainActivity.this, "Unable to retrieve location", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        // Network provider is not enabled, handle the case
-                        Log.d("TAG", "1unable");
-                        Toast.makeText(MainActivity.this, "Network provider is not enabled", Toast.LENGTH_SHORT).show();
-                    }
+                    // Permissions are already granted, proceed with location retrieval
+                    fusedLocationProviderClient.getLastLocation()
+                            .addOnSuccessListener(MainActivity.this, new OnSuccessListener<Location>() {
+                                @Override
+                                public void onSuccess(Location location) {
+                                    if (location != null) {
+                                        // Location retrieved successfully
+                                        onLocationChanged(location);
+                                        locationFunc(location);
+                                    } else {
+                                        // Location is null, handle the case
+                                        Toast.makeText(MainActivity.this, "Unable to retrieve location", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            })
+                            .addOnFailureListener(MainActivity.this, new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Failed to retrieve location
+                                    Toast.makeText(MainActivity.this, "Failed to retrieve location: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                 }
-
             }
         });
     }
@@ -302,7 +313,7 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
     }
     public void locationFunc(Location location){
         try {
-            Geocoder geocoder = new Geocoder(this);
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
             List<Address> addressList = null;
             addressList= geocoder.getFromLocation(latitude,longitude,1);
             String city = addressList.get(0).getLocality();

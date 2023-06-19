@@ -22,10 +22,12 @@ import java.util.List;
 
 public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     List<File> recyclerFileList;
+    int stat;
     Context context;
-    public GridAdapter(Context context, List<File> recyclerFileList){
+    public GridAdapter(Context context, List<File> recyclerFileList, int stat){
         this.context = context;
         this.recyclerFileList = recyclerFileList;
+        this.stat = stat;
 
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -61,13 +63,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 //                .placeholder(R.drawable.placeholder_image) // Optional: Display a placeholder image while loading
 //                .error(R.drawable.error_image) // Optional: Display an error image if loading fails
                 .into(holder.image);
-//        String fileUri = file.getFileUri();
-//        if (fileUri != null) {
-//            Uri uri = Uri.parse(fileUri);
-//            holder.image.setImageURI(uri);
-//        } else {
-//            holder.image.setImageDrawable(null);
-//        }
+
 
         holder.delBtn.setOnClickListener(new View.OnClickListener() {
             @Override
