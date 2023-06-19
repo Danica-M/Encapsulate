@@ -3,13 +3,21 @@ package com.example.encapsulate;
 
 
 
-
+import android.Manifest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -32,26 +40,32 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.text.ParseException;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements LocationListener {
 
+    private LocationManager locationManager;
     TextView openDateLabel, pinLabel;
     EditText name, desc, loc, openDate, pin;
     Switch isOpen;
     Controller controller;
     TimeCapsule timeCapsule;
-    Button cancel, create;
+    Button cancel, create, locationBtn;
+    double longitude;
+    double latitude;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         String currentTCID = Controller.getCurrentTCID();
         String owner = Controller.getCurrentUser().getUserID();
@@ -66,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         pin = findViewById(R.id.pin);
         cancel = findViewById(R.id.cancelBtn);
         create = findViewById(R.id.createBtn);
+        locationBtn = findViewById(R.id.locationBtn);
+
 
         if (currentTCID != null && !currentTCID.isEmpty()) {getCurrentTC(currentTCID);}
 
@@ -172,6 +188,38 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        locationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("TAG", "location Clicked");
+                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{
+                            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+                } else {
+                    // Location permissions are already granted, proceed with your code
+
+                    if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        if (location != null) {
+                            onLocationChanged(location);
+
+                        } else {
+                            // Location is null, handle the case
+                            Log.d("TAG", "2unable");
+                            Toast.makeText(MainActivity.this, "Unable to retrieve location", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        // Network provider is not enabled, handle the case
+                        Log.d("TAG", "1unable");
+                        Toast.makeText(MainActivity.this, "Network provider is not enabled", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            }
+        });
     }
 
 
@@ -243,8 +291,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        longitude = location.getLongitude();
+        latitude = location.getLatitude();
+
+        locationFunc(location);
 
 
-
-
+    }
+    public void locationFunc(Location location){
+        try {
+            Geocoder geocoder = new Geocoder(this);
+            List<Address> addressList = null;
+            addressList= geocoder.getFromLocation(latitude,longitude,1);
+            String city = addressList.get(0).getLocality();
+            String country = addressList.get(0).getCountryName();
+            loc.setText(city+","+country);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "error occurred: "+ e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    }
 }

@@ -79,7 +79,7 @@
             android:inputType="text"
             android:padding="10dp"
             android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/button3"
+            app:layout_constraintEnd_toStartOf="@+id/locationBtn"
             app:layout_constraintStart_toStartOf="@+id/description"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -179,12 +179,12 @@
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/locationBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:insetTop="0dp"
             android:insetBottom="7dp"
-            android:text="Button"
+            android:text="My Location"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@+id/description"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />

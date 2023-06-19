@@ -27,7 +27,6 @@
             android:background="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/icon_lock"
             tools:srcCompat="@drawable/icon_lock" />
 
         <LinearLayout
