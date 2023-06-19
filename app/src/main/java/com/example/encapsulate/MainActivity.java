@@ -7,6 +7,7 @@ package com.example.encapsulate;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.View;
 
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -23,16 +25,17 @@ import android.widget.Toast;
 
 
 import com.example.encapsulate.models.Controller;
-import com.example.encapsulate.models.File;
 import com.example.encapsulate.models.TimeCapsule;
-import com.google.firebase.auth.FirebaseAuth;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.ParseException;
+
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         String currentTCID = Controller.getCurrentTCID();
+        String owner = Controller.getCurrentUser().getUserID();
         controller = new Controller();
         openDateLabel = findViewById(R.id.textView5);
         pinLabel = findViewById(R.id.textView6);
@@ -64,6 +68,13 @@ public class MainActivity extends AppCompatActivity {
         create = findViewById(R.id.createBtn);
 
         if (currentTCID != null && !currentTCID.isEmpty()) {getCurrentTC(currentTCID);}
+
+        openDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setDate(openDate);
+            }
+        });
         isOpen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -128,39 +139,46 @@ public class MainActivity extends AppCompatActivity {
                 tOpenDate = openDate.getText().toString();
                 tPin = pin.getText().toString();
 
-                if (currentTCID != null && !currentTCID.isEmpty()) {
-                    controller.updateTimeCapsule(currentTCID,tName, tDesc, tLoc, stat, tOpenDate, tPin);
-                    Intent nIntent = new Intent(MainActivity.this, FileUpload.class);
-                    startActivity(nIntent);
+                Log.d("TAG","userID:"+owner);
+                Log.d("TAG","openDate:"+tOpenDate);
+                Log.d("TAG","pin:"+tPin);
 
+                if (TextUtils.isEmpty(tName) || TextUtils.isEmpty(tDesc)) {
+                    Toast.makeText(MainActivity.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
+                } else if (stat) {
+                    if(TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin))
+                        Toast.makeText(MainActivity.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
                 } else {
+//                    Toast.makeText(MainActivity.this, "reached", Toast.LENGTH_SHORT).show();
+                    if (currentTCID != null && !currentTCID.isEmpty()) {
+                        controller.updateTimeCapsule(currentTCID,tName, tDesc, tLoc,owner, stat, tOpenDate, tPin);
+                        Intent nIntent = new Intent(MainActivity.this, FileUpload.class);
+                        startActivity(nIntent);
+                        Toast.makeText(MainActivity.this, "1", Toast.LENGTH_SHORT).show();
 
-                    Log.d("TAG", "name: " + tName);
-
-                    if (TextUtils.isEmpty(tName) || TextUtils.isEmpty(tDesc)) {
-                        Toast.makeText(MainActivity.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
-                    } else if (stat) {
-                        if (TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin)) {
-                            Toast.makeText(MainActivity.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        try {
-                            timeCapsule = controller.addTimeCapsule(tName, tDesc, tLoc, stat, tOpenDate, tPin);
-                            if (timeCapsule != null) {
-                                Controller.setCurrentTCID(timeCapsule.getCapsuleID());
-                                Intent nIntent = new Intent(MainActivity.this, FileUpload.class);
-                                startActivity(nIntent);
-                            }
-
-                        } catch (Exception ex) {
-                            Toast.makeText(MainActivity.this, "Error Occurred: " + ex.getMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(MainActivity.this, "2", Toast.LENGTH_SHORT).show();
+                        timeCapsule = controller.addTimeCapsule(tName, tDesc, tLoc, owner, stat, tOpenDate, tPin);
+                        if (timeCapsule != null) {
+                            Log.d("TAG", "reached");
+                            Controller.setCurrentTCID(timeCapsule.getCapsuleID());
+                            Intent nIntent = new Intent(MainActivity.this, FileUpload.class);
+                            startActivity(nIntent);
+                        } else {
+                            Log.d("TAG", "not saved");
                         }
                     }
                 }
+
             }
         });
-
     }
+
+
+
+
+
+
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
@@ -176,6 +194,32 @@ public class MainActivity extends AppCompatActivity {
 //
 //    }
 
+    public void setDate(EditText editText) {
+        // Get the current date to set it as the minimum date
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Create a new date picker dialog and set the minimum date
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                MainActivity.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        calendar.set(year, month, day);
+                        // Update the edit text with the selected date
+                        String selectedDate = Controller.getSdf().format(calendar.getTimeInMillis());
+                        editText.setText(selectedDate);
+                    }
+                },
+                year, month, day);
+        datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
+        // Show the date picker dialog
+        datePickerDialog.show();
+    }
+
     public void getCurrentTC(String id){
         DatabaseReference tRef = Controller.getReference().child("timeCapsules").child(id);
         tRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -185,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
                 name.setText(timeCapsule.getCapsuleName());
                 desc.setText(timeCapsule.getDescription());
                 loc.setText(timeCapsule.getLocation());
-                if(timeCapsule.getOpen()){
+                if(timeCapsule.getClose()){
                     isOpen.setChecked(true);
                     openDate.setText(timeCapsule.getOpenDate());
                     pin.setText(timeCapsule.getPin());

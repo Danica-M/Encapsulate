@@ -2,13 +2,29 @@ package com.example.encapsulate.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.encapsulate.Adapter;
 import com.example.encapsulate.R;
+import com.example.encapsulate.models.Controller;
+import com.example.encapsulate.models.TimeCapsule;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +32,11 @@ import com.example.encapsulate.R;
  * create an instance of this fragment.
  */
 public class Capsule_Fragment extends Fragment {
+    Controller controller;
+    private Adapter adapter;
+    private TextView none;
+    RecyclerView capsuleRecycler;
+    private List<TimeCapsule> timeCapsList;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,12 +76,58 @@ public class Capsule_Fragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        controller = new Controller();
+        timeCapsList = new ArrayList<>();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_capsule_, container, false);
+        getUserCapsules();
+        View view = inflater.inflate(R.layout.fragment_capsule_, container, false);
+        none = view.findViewById(R.id.none);
+        none.setVisibility(View.GONE);
+        capsuleRecycler = view.findViewById(R.id.capsuleRecycler);
+        capsuleRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        Log.d("TAG", "List0: "+timeCapsList.size());
+
+
+
+
+        Log.d("TAG", "currentUSer: "+Controller.getCurrentUser().getUserID());
+        return view;
+
+
+    }
+
+    public void getUserCapsules(){
+        DatabaseReference capRef = Controller.getReference().child("timeCapsules");
+        Query query = capRef.orderByChild("close");
+        capRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot capItems: snapshot.getChildren()){
+                    TimeCapsule timeCapsule = capItems.getValue(TimeCapsule.class);
+                    if(timeCapsule != null && timeCapsule.getOwner().equals(Controller.getCurrentUser().getUserID())){
+                        timeCapsList.add(timeCapsule);
+                        Log.d("TAG", "owner: "+timeCapsule.getOwner());
+                        Log.d("TAG", "ListS: "+timeCapsList.size());
+                    }
+                }
+                if(timeCapsList.size()==0) {
+                    none.setText("You don't have any time capsule.");
+                    none.setVisibility(View.VISIBLE);
+                }
+                adapter = new Adapter(getContext(), timeCapsList);
+                capsuleRecycler.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 }

@@ -87,7 +87,6 @@ public class uploadImage extends AppCompatActivity {
                     Date currentDate = new Date();
                     String fileName = formatter.format(currentDate);
 
-                    Controller.countplus();
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference("images/"+fileName);
                     storageReference.putFile(uri)
                             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

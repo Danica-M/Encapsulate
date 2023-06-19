@@ -8,19 +8,22 @@ public class TimeCapsule {
     String capsuleName;
     String description;
     String location;
-    Boolean isOpen;
+    String owner;
+    Boolean isClose;
     String openDate;
     String pin;
     Integer fileCapacity;
+
     private List<File> uploads;
 
     public TimeCapsule(){}
-    public TimeCapsule(String capsuleID, String capsuleName, String description, String location, Boolean isOpen, String openDate, String pin) {
+    public TimeCapsule(String capsuleID, String capsuleName, String description, String location,String owner, Boolean isClose, String openDate, String pin) {
         this.capsuleID = capsuleID;
         this.capsuleName = capsuleName;
         this.description = description;
         this.location = location;
-        this.isOpen = isOpen;
+        this.owner = owner;
+        this.isClose = isClose;
         this.openDate = openDate;
         this.pin = pin;
         this.fileCapacity = 20;
@@ -59,12 +62,20 @@ public class TimeCapsule {
         this.location = location;
     }
 
-    public Boolean getOpen() {
-        return isOpen;
+    public Boolean getClose() {
+        return isClose;
     }
 
-    public void setOpen(Boolean open) {
-        isOpen = open;
+    public void setClose(Boolean close) {
+        isClose = close;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getOpenDate() {

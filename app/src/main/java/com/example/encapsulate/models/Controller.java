@@ -32,17 +32,19 @@ public class Controller {
     private static DatabaseReference reference;
     private static SimpleDateFormat sdf;
 
-
     private static FirebaseStorage firebaseStorage;
     public static User currentUser;
     public static String currentTCID;
-    public static int counter = 0;
 
     public Controller() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         reference = firebaseDatabase.getReference();
         firebaseStorage = FirebaseStorage.getInstance();
         sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    }
+
+    public static SimpleDateFormat getSdf() {
+        return sdf;
     }
 
     public static DatabaseReference getReference() {
@@ -57,7 +59,6 @@ public class Controller {
         Controller.currentTCID = currentTCID;
     }
 
-    public static void countplus(){counter +=1;};
     public static FirebaseStorage getFirebaseStorage(){return firebaseStorage;}
     public static User getCurrentUser() {
         return currentUser;
@@ -75,16 +76,6 @@ public class Controller {
 
     public static void addItem(File item){fileList.add(item);}
 
-//    public static void removeItem(File item){
-//        // Find the index of the fileToRemove in the ArrayList
-//        int index = fileList.indexOf(item);
-//
-//        // Check if the fileToRemove exists in the ArrayList
-//        if (index != -1) {
-//            // Remove the fileToRemove from the ArrayList
-//            fileList.remove(index);
-//        }
-//    }
 
     // validation for firstname and lastname
     public static boolean validateString(String name) {
@@ -103,10 +94,10 @@ public class Controller {
         }
     }
 
-    public TimeCapsule addTimeCapsule(String capsuleName, String description, String location, Boolean isOpen, String openDate, String pin){
+    public TimeCapsule addTimeCapsule(String capsuleName, String description, String location, String owner, Boolean isClose, String openDate, String pin){
         try{
             String capsuleID = reference.push().getKey();
-            TimeCapsule timeCapsule = new TimeCapsule(capsuleID, capsuleName, description, location, isOpen, openDate, pin);
+            TimeCapsule timeCapsule = new TimeCapsule(capsuleID, capsuleName, description, location,owner, isClose, openDate, pin);
             reference.child("timeCapsules").child(Objects.requireNonNull(capsuleID)).setValue(timeCapsule);
             return timeCapsule;
         }catch(Exception e){
@@ -127,12 +118,13 @@ public class Controller {
             }
         });
     }
-    public void updateTimeCapsule(String capsuleID, String capsuleName, String description, String location, Boolean isOpen, String openDate, String pin) {
+    public void updateTimeCapsule(String capsuleID, String capsuleName, String description, String location,String owner, Boolean isClose, String openDate, String pin) {
         DatabaseReference capsuleRef = reference.child("timeCapsules").child(capsuleID);
         capsuleRef.child("capsuleName").setValue(capsuleName);
         capsuleRef.child("description").setValue(description);
         capsuleRef.child("location").setValue(location);
-        capsuleRef.child("open").setValue(isOpen);
+        capsuleRef.child("owner").setValue(owner);
+        capsuleRef.child("open").setValue(isClose);
         capsuleRef.child("openDate").setValue(openDate);
         capsuleRef.child("pin").setValue(pin);
 

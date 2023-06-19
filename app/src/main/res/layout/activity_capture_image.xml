@@ -54,7 +54,7 @@
         android:id="@+id/captionText_2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/custom_edittext"
+        android:background="@drawable/edittext_custom"
         android:ems="10"
         android:gravity="top"
         android:inputType="textMultiLine"

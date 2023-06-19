@@ -26,7 +26,7 @@
             android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="50dp"
             android:text="Name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -119,15 +119,15 @@
             android:layout_marginEnd="120dp"
             android:background="@drawable/edittext_custom"
             android:ems="10"
-            android:enabled="false"
+            android:enabled="true"
             android:gravity="start"
-            android:inputType="text"
+            android:inputType="date"
             android:padding="10dp"
             android:textSize="14sp"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView5"
-            app:layout_constraintTop_toBottomOf="@+id/textView5"
-            android:visibility="invisible"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
         <EditText
             android:id="@+id/pin"
@@ -136,15 +136,15 @@
             android:layout_marginStart="20dp"
             android:background="@drawable/edittext_custom"
             android:ems="10"
-            android:enabled="false"
+            android:enabled="true"
             android:gravity="start"
-            android:inputType="text"
+            android:inputType="numberPassword"
             android:padding="10dp"
             android:textSize="14sp"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="@+id/textView6"
             app:layout_constraintStart_toEndOf="@+id/openDate"
-            app:layout_constraintTop_toBottomOf="@+id/textView6"
-            android:visibility="invisible"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
         <Button
             android:id="@+id/cancelBtn"
