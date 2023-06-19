@@ -4,8 +4,10 @@ package com.example.encapsulate;
 
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,8 +23,16 @@ import android.widget.Toast;
 
 
 import com.example.encapsulate.models.Controller;
+import com.example.encapsulate.models.File;
 import com.example.encapsulate.models.TimeCapsule;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String currentTCID = Controller.getCurrentTCID();
         controller = new Controller();
         openDateLabel = findViewById(R.id.textView5);
         pinLabel = findViewById(R.id.textView6);
@@ -52,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         cancel = findViewById(R.id.cancelBtn);
         create = findViewById(R.id.createBtn);
 
-
+        if (currentTCID != null && !currentTCID.isEmpty()) {getCurrentTC(currentTCID);}
         isOpen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -75,54 +86,76 @@ public class MainActivity extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                controller.NewList();
-                if(timeCapsule==null){
-                    Intent intent = new Intent(MainActivity.this, Home.class);
-                    startActivity(intent);
-                }else{
-                    controller.deleteTimeCapsule(timeCapsule.getCapsuleID(), getApplicationContext());
-                    Intent intent = new Intent(MainActivity.this, Home.class);
-                    startActivity(intent);
-                }
 
+                new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Create Time Capsule Cancellation")
+                        .setMessage("Are you sure you want to cancel creating this time capsule?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(currentTCID==null){
+                                    Intent intent = new Intent(MainActivity.this, Home.class);
+                                    startActivity(intent);
+                                    Controller.setCurrentTCID(null);
+                                }else{
+                                    controller.deleteTimeCapsule(currentTCID, getApplicationContext());
+                                    Intent intent = new Intent(MainActivity.this, Home.class);
+                                    startActivity(intent);
+                                    if(Controller.getFileList().size()>0){
+                                        controller.deleteStorageFiles(Controller.getFileList());
+                                    }
+                                }
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        }).show();
             }
         });
 
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String tName, tDesc, tLoc, tOpenDate, tPin;
                 boolean stat = isOpen.isChecked();
-
                 tName = name.getText().toString();
                 tDesc = desc.getText().toString();
                 tLoc = loc.getText().toString();
                 tOpenDate = openDate.getText().toString();
                 tPin = pin.getText().toString();
-                Log.d("TAG", "name: "+tName);
 
-                if(TextUtils.isEmpty(tName) || TextUtils.isEmpty(tDesc)){
-                    Toast.makeText(MainActivity.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
-                }else if(stat) {
-                    if (TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin)) {
-                        Toast.makeText(MainActivity.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                        try{
+                if (currentTCID != null && !currentTCID.isEmpty()) {
+                    controller.updateTimeCapsule(currentTCID,tName, tDesc, tLoc, stat, tOpenDate, tPin);
+                    Intent nIntent = new Intent(MainActivity.this, FileUpload.class);
+                    startActivity(nIntent);
+
+                } else {
+
+                    Log.d("TAG", "name: " + tName);
+
+                    if (TextUtils.isEmpty(tName) || TextUtils.isEmpty(tDesc)) {
+                        Toast.makeText(MainActivity.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
+                    } else if (stat) {
+                        if (TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin)) {
+                            Toast.makeText(MainActivity.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        try {
                             timeCapsule = controller.addTimeCapsule(tName, tDesc, tLoc, stat, tOpenDate, tPin);
-                            if(timeCapsule != null){
+                            if (timeCapsule != null) {
+                                Controller.setCurrentTCID(timeCapsule.getCapsuleID());
                                 Intent nIntent = new Intent(MainActivity.this, FileUpload.class);
-                                nIntent.putExtra("id", timeCapsule.getCapsuleID());
                                 startActivity(nIntent);
-
-
-
-
                             }
 
-                        }catch (Exception ex){
+                        } catch (Exception ex) {
                             Toast.makeText(MainActivity.this, "Error Occurred: " + ex.getMessage(), Toast.LENGTH_SHORT).show();
                         }
+                    }
                 }
             }
         });
@@ -142,6 +175,28 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //
 //    }
+
+    public void getCurrentTC(String id){
+        DatabaseReference tRef = Controller.getReference().child("timeCapsules").child(id);
+        tRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                TimeCapsule timeCapsule = snapshot.getValue(TimeCapsule.class);
+                name.setText(timeCapsule.getCapsuleName());
+                desc.setText(timeCapsule.getDescription());
+                loc.setText(timeCapsule.getLocation());
+                if(timeCapsule.getOpen()){
+                    isOpen.setChecked(true);
+                    openDate.setText(timeCapsule.getOpenDate());
+                    pin.setText(timeCapsule.getPin());
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 
 

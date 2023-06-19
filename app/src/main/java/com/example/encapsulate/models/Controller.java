@@ -35,6 +35,7 @@ public class Controller {
 
     private static FirebaseStorage firebaseStorage;
     public static User currentUser;
+    public static String currentTCID;
     public static int counter = 0;
 
     public Controller() {
@@ -42,6 +43,18 @@ public class Controller {
         reference = firebaseDatabase.getReference();
         firebaseStorage = FirebaseStorage.getInstance();
         sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    }
+
+    public static DatabaseReference getReference() {
+        return reference;
+    }
+
+    public static String getCurrentTCID() {
+        return currentTCID;
+    }
+
+    public static void setCurrentTCID(String currentTCID) {
+        Controller.currentTCID = currentTCID;
     }
 
     public static void countplus(){counter +=1;};
@@ -114,8 +127,19 @@ public class Controller {
             }
         });
     }
+    public void updateTimeCapsule(String capsuleID, String capsuleName, String description, String location, Boolean isOpen, String openDate, String pin) {
+        DatabaseReference capsuleRef = reference.child("timeCapsules").child(capsuleID);
+        capsuleRef.child("capsuleName").setValue(capsuleName);
+        capsuleRef.child("description").setValue(description);
+        capsuleRef.child("location").setValue(location);
+        capsuleRef.child("open").setValue(isOpen);
+        capsuleRef.child("openDate").setValue(openDate);
+        capsuleRef.child("pin").setValue(pin);
 
-    public void addFile(String timeCapsuleID, File file){
+    }
+
+
+    public void addFile(String timeCapsuleID, List<File> fileList){
         try{
 
             DatabaseReference tRef = reference.child("timeCapsules").child(timeCapsuleID);
@@ -124,13 +148,7 @@ public class Controller {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     TimeCapsule timeCapsule = snapshot.getValue(TimeCapsule.class);
                     if(timeCapsule!=null){
-                        List<File> uploads = timeCapsule.getUploads();
-                        if(uploads==null){
-                            uploads = new ArrayList<>();
-                        }
-                        uploads.add(file);
-                        tRef.child("uploads").setValue(uploads);
-
+                        tRef.child("uploads").setValue(fileList);
                     }
                 }
                 @Override
@@ -141,6 +159,15 @@ public class Controller {
 
         }catch(Exception e){
             throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteStorageFiles(List<File> fileList){
+        for (File fileObject : fileList) {
+            String fileUrl = fileObject.getFileUrl();
+            StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(fileUrl);
+            // Delete the file
+            storageRef.delete();
         }
     }
 

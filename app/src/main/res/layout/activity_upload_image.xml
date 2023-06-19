@@ -7,6 +7,17 @@
     android:padding="10dp"
     tools:context=".uploadImage">
 
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Caption"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_1"
+        app:layout_constraintStart_toStartOf="@+id/imageView_1"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_1" />
+
     <Button
         android:id="@+id/chooseBtn"
         android:layout_width="0dp"
@@ -14,13 +25,13 @@
         android:text="Choose File"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <ImageView
         android:id="@+id/imageView_1"
         android:layout_width="0dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="50dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="@+id/chooseBtn"
         app:layout_constraintStart_toStartOf="@+id/chooseBtn"
         app:layout_constraintTop_toBottomOf="@+id/chooseBtn"
@@ -30,34 +41,45 @@
         android:id="@+id/captionText_1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:background="@drawable/edittext_custom"
         android:ems="10"
         android:gravity="top"
-        android:hint="Insert caption"
         android:inputType="textMultiLine"
         android:lines="4"
         android:maxLines="10"
         android:minLines="4"
         android:scrollbars="vertical"
-        app:layout_constraintEnd_toEndOf="@+id/imageView_1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_1" />
+        app:layout_constraintEnd_toEndOf="@+id/textView7"
+        app:layout_constraintStart_toStartOf="@+id/textView7"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <Button
         android:id="@+id/addBtn_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:text="Add"
-        app:layout_constraintEnd_toEndOf="@+id/captionText_1"
-        app:layout_constraintTop_toBottomOf="@+id/captionText_1" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/captionText_1" />
 
     <Button
         android:id="@+id/cancelBtn_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:text="cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="Upload Image File"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/captionText_1" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,8 +47,8 @@ public class Capture_Image extends AppCompatActivity {
         addBtn = findViewById(R.id.addBtn_2);
         cancelBtn = findViewById(R.id.cancelBtn_2);
         controller = new Controller();
-        intent3 = getIntent();
-        String cip = intent3.getStringExtra("id");
+//        intent3 = getIntent();
+        String cip = Controller.getCurrentTCID();
 
         captureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +96,8 @@ public class Capture_Image extends AppCompatActivity {
                                             // Use the download URL as needed
                                             Log.d("TAG", "dURL from cap: " + downloadUrl);
                                             File newF = new File(downloadUrl, cap, type);
-                                            controller.addFile(cip, newF);
+                                            Controller.addItem(newF);
+//                                            controller.addFile(cip, newF);
                                             Toast.makeText(Capture_Image.this, "Image added successfully", Toast.LENGTH_SHORT).show();
 
 //                                            if (progressDialog.isShowing()){progressDialog.dismiss();}

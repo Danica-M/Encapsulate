@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.encapsulate.models.Controller;
 import com.example.encapsulate.models.File;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -36,14 +39,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
             delBtn = view.findViewById(R.id.delBtn);
             caption = view.findViewById(R.id.cap);
 
-            delBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                recyclerFileList.remove(rec_position);
-//                Controller.removeItem(recyclerFileList.get(rec_position));
-                    notifyDataSetChanged();
-                }
-            });
+
         }
     }
 
@@ -60,6 +56,11 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         int rec_position = position;
         File file = recyclerFileList.get(position);
         holder.caption.setText(recyclerFileList.get(position).getCaption());
+        Picasso.get()
+                .load(file.getFileUrl())
+//                .placeholder(R.drawable.placeholder_image) // Optional: Display a placeholder image while loading
+//                .error(R.drawable.error_image) // Optional: Display an error image if loading fails
+                .into(holder.image);
 //        String fileUri = file.getFileUri();
 //        if (fileUri != null) {
 //            Uri uri = Uri.parse(fileUri);
@@ -67,6 +68,19 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 //        } else {
 //            holder.image.setImageDrawable(null);
 //        }
+
+        holder.delBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                File file1 = recyclerFileList.get(rec_position);
+                StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(file1.getFileUrl());
+                // Delete the file
+                storageRef.delete();
+                recyclerFileList.remove(rec_position);
+//                Controller.removeItem(recyclerFileList.get(rec_position));
+                notifyDataSetChanged();
+            }
+        });
 
     }
 

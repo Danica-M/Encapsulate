@@ -49,8 +49,8 @@ public class uploadImage extends AppCompatActivity {
         addBtn = findViewById(R.id.addBtn_1);
         cancelBtn = findViewById(R.id.cancelBtn_1);
 
-        intent2 = getIntent();
-        String cip = intent2.getStringExtra("id");
+//        intent2 = getIntent();
+        String cip = Controller.getCurrentTCID();
 
 
         chooseBtn.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +100,8 @@ public class uploadImage extends AppCompatActivity {
                                             // Use the download URL as needed
                                             Log.d("TAG", "dURL: " + downloadUrl);
                                             File newF = new File(downloadUrl, cap, type);
-                                            controller.addFile(cip, newF);
+                                            Controller.addItem(newF);
+//                                            controller.addFile(cip, newF);
                                             Toast.makeText(uploadImage.this, "Image added successfully", Toast.LENGTH_SHORT).show();
 
 //                                            if (progressDialog.isShowing()){progressDialog.dismiss();}
@@ -152,6 +153,7 @@ public class uploadImage extends AppCompatActivity {
         if (resultCode == RESULT_OK && data != null) {
             uri = data.getData();
             imgView.setImageURI(uri);
+            imgView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             Log.d("TAG", "uri:" + uri);
         }
     }
