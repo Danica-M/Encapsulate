@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This time capsule is lock and yet to be open on that date you sat on creation. To force open this, please provide the your capsule pin."
+        android:textAlignment="center"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/ed_pin"
+        android:layout_width="201dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView19"
+        android:layout_alignStart="@+id/textView19"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="99dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="101dp"
+        android:background="@drawable/edittext_custom"
+        android:ems="10"
+        android:fontFamily="monospace"
+        android:inputType="numberPassword"
+        android:padding="5dp"
+        android:textAlignment="center"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/tv_error"
+        android:layout_width="191dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ed_pin"
+        android:layout_alignStart="@+id/textView19"
+        android:layout_alignEnd="@+id/textView19"
+        android:layout_marginStart="99dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="102dp"
+        android:text="Incorrect Pin!"
+        android:textAlignment="center"
+        android:textColor="#FD0303"
+        android:textStyle="italic"
+        tools:visibility="invisible" />
+
+    <Button
+        android:id="@+id/dl_submit"
+        android:layout_width="191dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_error"
+        android:layout_alignStart="@+id/tv_error"
+        android:layout_alignEnd="@+id/tv_error"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:text="submit" />
+
+    <Button
+        android:id="@+id/dl_cancel"
+        android:layout_width="193dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dl_submit"
+        android:layout_alignStart="@+id/tv_error"
+        android:layout_alignEnd="@+id/tv_error"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="1dp"
+        android:text="cancel" />
+
+</RelativeLayout>
