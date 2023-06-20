@@ -68,8 +68,12 @@ public class Controller {
         currentUser = user;
     }
 
-    public void NewList(){
+    public static void NewList(){
         fileList.clear();
+    }
+
+    public static void setFileList(List<File> fileList) {
+        Controller.fileList = fileList;
     }
 
     public static List<File> getFileList(){return fileList;}

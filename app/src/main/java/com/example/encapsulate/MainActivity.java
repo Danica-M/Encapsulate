@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
         String currentTCID = Controller.getCurrentTCID();
         String owner = Controller.getCurrentUser().getUserID();
         controller = new Controller();
+        Controller.NewList();
         openDateLabel = findViewById(R.id.textView5);
         pinLabel = findViewById(R.id.textView6);
         name = findViewById(R.id.name);

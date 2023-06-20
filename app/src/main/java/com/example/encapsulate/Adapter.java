@@ -2,6 +2,7 @@ package com.example.encapsulate;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public Adapter(Context context, List<TimeCapsule> timeCapsuleList){
         this.context = context;
         this.timeCapsuleList = timeCapsuleList;
-        Log.d("TAG", "ListSize: "+timeCapsuleList.size());
     }
 
 
@@ -58,6 +58,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             holder.stat.setBackgroundResource(R.drawable.icon_unlock);
             holder.capHolder.setBackgroundResource(R.color.teal_200);
         }
+
+        holder.capHolder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), CapsuleDisplay.class);
+                intent.putExtra("id", clickedCapsule.getCapsuleID());
+                context.startActivity(intent);
+            }
+        });
     }
 
     public void setFilteredList(ArrayList<TimeCapsule> filteredList){

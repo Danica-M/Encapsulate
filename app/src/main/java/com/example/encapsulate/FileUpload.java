@@ -71,6 +71,7 @@ public class FileUpload extends AppCompatActivity {
                 Intent nIntent = new Intent(FileUpload.this, Home.class);
                 startActivity(nIntent);
                 Controller.setCurrentTCID(null);
+                Controller.NewList();
 
             }
         });

@@ -1,6 +1,7 @@
 package com.example.encapsulate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.encapsulate.models.Controller;
@@ -34,12 +36,14 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         ImageView image;
         FloatingActionButton delBtn;
         TextView caption;
+        ConstraintLayout fileHolder;
 
         public ViewHolder(View view) {
             super(view);
             image = view.findViewById(R.id.image);
             delBtn = view.findViewById(R.id.delBtn);
             caption = view.findViewById(R.id.cap);
+            fileHolder = view.findViewById(R.id.layoutHolder);
 
 
         }
@@ -65,18 +69,23 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
                 .into(holder.image);
 
 
-        holder.delBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                File file1 = recyclerFileList.get(rec_position);
-                StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(file1.getFileUrl());
-                // Delete the file
-                storageRef.delete();
-                recyclerFileList.remove(rec_position);
+
+        if(stat == 0){
+
+            holder.delBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    File file1 = recyclerFileList.get(rec_position);
+                    StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(file1.getFileUrl());
+                    // Delete the file
+                    storageRef.delete();
+                    recyclerFileList.remove(rec_position);
 //                Controller.removeItem(recyclerFileList.get(rec_position));
-                notifyDataSetChanged();
-            }
-        });
+                    notifyDataSetChanged();
+                }
+            });
+
+        }else{holder.delBtn.setVisibility(View.INVISIBLE);}
 
     }
 

@@ -21,6 +21,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/edittext_custom"
+        android:enabled="false"
         android:gravity="start"
         android:padding="10dp"
         android:showText="false"
@@ -39,7 +40,7 @@
         android:layout_marginStart="20dp"
         android:background="@drawable/edittext_custom"
         android:ems="10"
-        android:enabled="true"
+        android:enabled="false"
         android:gravity="start"
         android:inputType="numberPassword"
         android:padding="10dp"
@@ -56,7 +57,7 @@
         android:layout_marginEnd="140dp"
         android:background="@drawable/edittext_custom"
         android:ems="10"
-        android:enabled="true"
+        android:enabled="false"
         android:gravity="start"
         android:inputType="date"
         android:padding="10dp"
@@ -93,6 +94,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/edittext_custom"
         android:ems="10"
+        android:enabled="false"
         android:gravity="start"
         android:inputType="text"
         android:padding="10dp"
@@ -107,6 +109,7 @@
         android:layout_height="80dp"
         android:background="@drawable/edittext_custom"
         android:ems="10"
+        android:enabled="false"
         android:gravity="start"
         android:inputType="textMultiLine"
         android:padding="10dp"
@@ -121,6 +124,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/edittext_custom"
         android:ems="10"
+        android:enabled="false"
         android:inputType="text"
         android:padding="10dp"
         android:textSize="14sp"
@@ -161,6 +165,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/d_pin"
         app:layout_constraintStart_toStartOf="@+id/d_date"
@@ -193,7 +198,8 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/icon_capture" />
+        app:srcCompat="@drawable/icon_capture"
+        tools:visibility="invisible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/d_upload"
@@ -203,6 +209,7 @@
         android:clickable="true"
         app:layout_constraintBottom_toTopOf="@+id/d_capture"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/icon_upload" />
+        app:srcCompat="@drawable/icon_upload"
+        tools:visibility="invisible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

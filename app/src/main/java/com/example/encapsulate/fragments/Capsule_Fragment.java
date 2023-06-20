@@ -90,11 +90,6 @@ public class Capsule_Fragment extends Fragment {
         none.setVisibility(View.GONE);
         capsuleRecycler = view.findViewById(R.id.capsuleRecycler);
         capsuleRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        Log.d("TAG", "List0: "+timeCapsList.size());
-
-
-
-
         Log.d("TAG", "currentUSer: "+Controller.getCurrentUser().getUserID());
         return view;
 
@@ -111,8 +106,6 @@ public class Capsule_Fragment extends Fragment {
                     TimeCapsule timeCapsule = capItems.getValue(TimeCapsule.class);
                     if(timeCapsule != null && timeCapsule.getOwner().equals(Controller.getCurrentUser().getUserID())){
                         timeCapsList.add(timeCapsule);
-                        Log.d("TAG", "owner: "+timeCapsule.getOwner());
-                        Log.d("TAG", "ListS: "+timeCapsList.size());
                     }
                 }
                 if(timeCapsList.size()==0) {

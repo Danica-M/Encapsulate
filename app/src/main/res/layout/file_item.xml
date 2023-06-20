@@ -16,7 +16,8 @@
         it is used only for reference how it will look"-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutHolder">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/delBtn"
