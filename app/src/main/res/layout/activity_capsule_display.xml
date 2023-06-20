@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/d"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
@@ -136,7 +137,6 @@
         android:id="@+id/textView13"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -171,35 +171,17 @@
         app:layout_constraintStart_toStartOf="@+id/d_date"
         app:layout_constraintTop_toBottomOf="@+id/d_date" />
 
-    <ImageButton
-        android:id="@+id/d_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="70dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView13"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icon_edit" />
-
-    <ImageButton
-        android:id="@+id/d_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.795"
-        app:layout_constraintStart_toEndOf="@+id/d_edit"
-        app:layout_constraintTop_toTopOf="@+id/d_edit"
-        app:srcCompat="@drawable/icon_delete" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/d_capture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/d_delete"
+        app:layout_constraintEnd_toEndOf="@+id/d_delete"
         app:srcCompat="@drawable/icon_capture"
-        tools:visibility="invisible" />
+        tools:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/d_upload"
@@ -207,9 +189,39 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:clickable="true"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/d_capture"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/icon_upload"
-        tools:visibility="invisible" />
+        tools:visibility="visible" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/d_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toTopOf="@+id/d_close"
+        app:layout_constraintEnd_toEndOf="@+id/d_close"
+        app:srcCompat="@drawable/icon_edit" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/d_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toTopOf="@+id/d_edit"
+        app:layout_constraintEnd_toEndOf="@+id/d_edit"
+        app:srcCompat="@drawable/icon_delete" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/d_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/icon_close" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,12 +6,16 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.encapsulate.models.Controller;
 import com.example.encapsulate.models.File;
@@ -27,20 +31,27 @@ import java.util.List;
 public class CapsuleDisplay extends AppCompatActivity {
 
     List<File> files;
-    ImageButton edit, delete;
-    FloatingActionButton upload, capture;
+    Controller controller;
+
+    FloatingActionButton upload, capture,edit, delete, close;
     EditText d_name, d_desc, d_loc, d_date,d_pin;
     Switch d_switch;
     RecyclerView d_recycler;
 
     GridAdapter gridAdapter;
-    String tid;
+    String tid, stat;
     Intent dIntent;
+    TimeCapsule capsule;
+    String tName, tDesc, tLoc, tOpenDate, tPin;
+    boolean stat2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capsule_display);
 
+
+        controller = new Controller();
+        close = findViewById(R.id.d_close);
         edit = findViewById(R.id.d_edit);
         delete = findViewById(R.id.d_delete);
         upload = findViewById(R.id.d_upload);
@@ -54,15 +65,164 @@ public class CapsuleDisplay extends AppCompatActivity {
         d_recycler = findViewById(R.id.d_recycler);
         d_recycler.setLayoutManager(new GridLayoutManager(this,2));
 
+        getQuestions();
 
         dIntent = getIntent();
         tid = dIntent.getStringExtra("id");
+        stat = dIntent.getStringExtra("stat");
+        Log.d("TAG", "stat: "+stat);
 
-        getQuestions();
 
 
 
+
+        if(stat!=null){
+            d_name.setEnabled(true);
+            d_desc.setEnabled(true);
+            d_loc.setEnabled(true);
+            d_date.setEnabled(true);
+            d_pin.setEnabled(true);
+            d_switch.setEnabled(true);
+            edit.setImageResource(R.drawable.icon_save);
+            upload.setVisibility(View.VISIBLE);
+            capture.setVisibility(View.VISIBLE);
+            d_recycler.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+            gridAdapter = new GridAdapter(CapsuleDisplay.this, Controller.getFileList(), 0);
+            d_recycler.setAdapter(gridAdapter);
+
+        }else{
+
+        }
+
+
+
+
+
+        d_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Controller.setDate(d_date, CapsuleDisplay.this);
+            }
+        });
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!d_name.isEnabled()){
+                    d_name.setEnabled(true);
+                    d_desc.setEnabled(true);
+                    d_loc.setEnabled(true);
+                    d_date.setEnabled(true);
+                    d_pin.setEnabled(true);
+                    d_switch.setEnabled(true);
+                    edit.setImageResource(R.drawable.icon_save);
+                    upload.setVisibility(View.VISIBLE);
+                    capture.setVisibility(View.VISIBLE);
+                    gridAdapter = new GridAdapter(CapsuleDisplay.this, Controller.getFileList(), 0);
+                    d_recycler.setAdapter(gridAdapter);
+
+                }else{
+
+
+                    stat2 = d_switch.isChecked();
+                    tName = d_name.getText().toString().toUpperCase();
+                    tDesc = d_desc.getText().toString();
+                    tLoc = d_loc.getText().toString();
+                    tOpenDate = d_date.getText().toString();
+                    tPin = d_pin.getText().toString();
+
+
+                    if (TextUtils.isEmpty(tName) || TextUtils.isEmpty(tDesc)) {
+                        Toast.makeText(CapsuleDisplay.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
+                    } else if (stat2) {
+                        if(TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin))
+                            Toast.makeText(CapsuleDisplay.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Controller.updateTimeCapsule(Controller.getCurrentTCID(), tName, tDesc, tLoc, Controller.getCurrentUser().getUserID(), stat2, tOpenDate, tPin);
+                        Controller.addFile(Controller.getCurrentTCID(), Controller.getFileList());
+                        Toast.makeText(CapsuleDisplay.this, "Time Capsule successfully updated", Toast.LENGTH_SHORT).show();
+                        Intent nIntent = new Intent(CapsuleDisplay.this, Home.class);
+                        startActivity(nIntent);
+                    }
+                }
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new androidx.appcompat.app.AlertDialog.Builder(CapsuleDisplay.this)
+                        .setTitle("Time Capsule Deletion Confirmation")
+                        .setMessage("Are you sure you want to delete this time capsule?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(Controller.getCurrentTCID()==null){
+                                    Intent intent = new Intent(CapsuleDisplay.this, Home.class);
+                                    startActivity(intent);
+                                    Controller.setCurrentTCID(null);
+                                }else{
+                                    Controller.deleteTimeCapsule(Controller.getCurrentTCID(), getApplicationContext());
+                                    Intent intent = new Intent(CapsuleDisplay.this, Home.class);
+                                    startActivity(intent);
+                                    if(Controller.getFileList().size()>0){
+                                        Controller.deleteStorageFiles(Controller.getFileList());
+                                    }
+                                }
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        }).show();
+            }
+        });
+
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stat2 = d_switch.isChecked();
+                tName = d_name.getText().toString().toUpperCase();
+                tDesc = d_desc.getText().toString();
+                tLoc = d_loc.getText().toString();
+                tOpenDate = d_date.getText().toString();
+                tPin = d_pin.getText().toString();
+                saveDetails();
+
+                Intent intent = new Intent(CapsuleDisplay.this, uploadImage.class);
+                intent.putExtra("type", "edit");
+                intent.putExtra("id", Controller.getCurrentTCID());
+                startActivity(intent);
+            }
+        });
+
+        capture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stat2 = d_switch.isChecked();
+                tName = d_name.getText().toString().toUpperCase();
+                tDesc = d_desc.getText().toString();
+                tLoc = d_loc.getText().toString();
+                tOpenDate = d_date.getText().toString();
+                tPin = d_pin.getText().toString();
+                saveDetails();
+
+                Intent intent = new Intent(CapsuleDisplay.this, Capture_Image.class);
+                intent.putExtra("type", "edit");
+                intent.putExtra("id", Controller.getCurrentTCID());
+                startActivity(intent);
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CapsuleDisplay.this, Home.class);
+                startActivity(intent);
+            }
+        });
     }
+
 
     public void getQuestions(){
         DatabaseReference tcRef = Controller.getReference().child("timeCapsules");
@@ -70,32 +230,47 @@ public class CapsuleDisplay extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot capsItem: snapshot.getChildren()){
-                    TimeCapsule capsule = capsItem.getValue(TimeCapsule.class);
+                    capsule = capsItem.getValue(TimeCapsule.class);
                     if(capsule!=null && capsule.getCapsuleID().equals(tid)){
-                        Log.d("TAG", "name: "+capsule.getCapsuleName() );
+
+                        Controller.setCurrentTCID(capsule.getCapsuleID());
+                        Log.d("TAG", "c_before: "+Controller.getFileList().size());
                         d_name.setText(capsule.getCapsuleName());
                         d_desc.setText(capsule.getDescription());
                         d_loc.setText(capsule.getLocation());
-                        if(capsule.getClose()){
-                            d_switch.setChecked(capsule.getClose());
-                            d_date.setText(capsule.getOpenDate());
-                            d_pin.setText(capsule.getPin());
-                        }
-                        if(capsule.getUploads().size()>0){
+                        d_switch.setChecked(capsule.getClose());
+                        if(stat==null && capsule.getUploads().size()>0){
                             Controller.setFileList(capsule.getUploads());
                             gridAdapter = new GridAdapter(CapsuleDisplay.this, Controller.getFileList(), 1);
                             d_recycler.setAdapter(gridAdapter);
                         }
+                        if(capsule.getClose()){
+                            d_date.setText(capsule.getOpenDate());
+                            d_pin.setText(capsule.getPin());
+                        }
+
                         Log.d("TAG", "c_: "+Controller.getFileList().size());
                         Log.d("TAG", "size: "+capsule.getUploads().size() );
                     }
                 }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+    }
+
+    public void saveDetails(){
+        if (TextUtils.isEmpty(tName) || TextUtils.isEmpty(tDesc)) {
+            Toast.makeText(CapsuleDisplay.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
+        } else if (stat2) {
+            if(TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin))
+                Toast.makeText(CapsuleDisplay.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
+        } else {
+            Controller.updateTimeCapsule(Controller.getCurrentTCID(), tName, tDesc, tLoc, Controller.getCurrentUser().getUserID(), stat2, tOpenDate, tPin);
+        }
     }
 
 

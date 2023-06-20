@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ public class FileUpload extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_upload);
 
+        Log.d("TAG", "fileSize:"+ Controller.getFileList().size());
         upload = findViewById(R.id.uploadButton);
         capture = findViewById(R.id.capBtn);
         back = findViewById(R.id.back);
@@ -66,12 +68,11 @@ public class FileUpload extends AppCompatActivity {
             public void onClick(View view) {
 
                 Controller controller = new Controller();
-                controller.addFile(Controller.getCurrentTCID(), Controller.getFileList());
+                Controller.addFile(Controller.getCurrentTCID(), Controller.getFileList());
                 Toast.makeText(FileUpload.this, "Time Capsule successfully created",Toast.LENGTH_SHORT).show();
                 Intent nIntent = new Intent(FileUpload.this, Home.class);
                 startActivity(nIntent);
-                Controller.setCurrentTCID(null);
-                Controller.NewList();
+
 
             }
         });

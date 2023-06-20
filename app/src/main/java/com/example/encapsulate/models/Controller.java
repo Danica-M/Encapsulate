@@ -1,12 +1,16 @@
 package com.example.encapsulate.models;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.encapsulate.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -21,6 +25,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -98,7 +103,7 @@ public class Controller {
         }
     }
 
-    public TimeCapsule addTimeCapsule(String capsuleName, String description, String location, String owner, Boolean isClose, String openDate, String pin){
+    public static TimeCapsule addTimeCapsule(String capsuleName, String description, String location, String owner, Boolean isClose, String openDate, String pin){
         try{
             String capsuleID = reference.push().getKey();
             TimeCapsule timeCapsule = new TimeCapsule(capsuleID, capsuleName, description, location,owner, isClose, openDate, pin);
@@ -109,7 +114,7 @@ public class Controller {
             return null;
         }
     }
-    public void deleteTimeCapsule(String capsuleID, Context context) {
+    public static void deleteTimeCapsule(String capsuleID, Context context) {
         DatabaseReference capsuleRef = FirebaseDatabase.getInstance().getReference("timeCapsules").child(capsuleID);
         capsuleRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -122,7 +127,7 @@ public class Controller {
             }
         });
     }
-    public void updateTimeCapsule(String capsuleID, String capsuleName, String description, String location,String owner, Boolean isClose, String openDate, String pin) {
+    public static void updateTimeCapsule(String capsuleID, String capsuleName, String description, String location,String owner, Boolean isClose, String openDate, String pin) {
         DatabaseReference capsuleRef = reference.child("timeCapsules").child(capsuleID);
         capsuleRef.child("capsuleName").setValue(capsuleName);
         capsuleRef.child("description").setValue(description);
@@ -135,7 +140,7 @@ public class Controller {
     }
 
 
-    public void addFile(String timeCapsuleID, List<File> fileList){
+    public static void addFile(String timeCapsuleID, List<File> fileList){
         try{
 
             DatabaseReference tRef = reference.child("timeCapsules").child(timeCapsuleID);
@@ -146,6 +151,8 @@ public class Controller {
                     if(timeCapsule!=null){
                         tRef.child("uploads").setValue(fileList);
                     }
+                    Controller.setCurrentTCID(null);
+                    Controller.NewList();
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
@@ -158,13 +165,39 @@ public class Controller {
         }
     }
 
-    public void deleteStorageFiles(List<File> fileList){
+    public static void deleteStorageFiles(List<File> fileList){
         for (File fileObject : fileList) {
             String fileUrl = fileObject.getFileUrl();
             StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(fileUrl);
             // Delete the file
             storageRef.delete();
         }
+    }
+
+    public static void setDate(EditText editText, Context context) {
+        // Get the current date to set it as the minimum date
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Create a new date picker dialog and set the minimum date
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                context,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        calendar.set(year, month, day);
+                        // Update the edit text with the selected date
+                        String selectedDate = Controller.getSdf().format(calendar.getTimeInMillis());
+                        editText.setText(selectedDate);
+                    }
+                },
+                year, month, day);
+        datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
+        // Show the date picker dialog
+        datePickerDialog.show();
     }
 
 

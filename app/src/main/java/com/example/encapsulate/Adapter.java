@@ -47,8 +47,19 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         TimeCapsule clickedCapsule = timeCapsuleList.get(position);
         holder.name.setText(timeCapsuleList.get(position).getCapsuleName());
         holder.description.setText(timeCapsuleList.get(position).getDescription());
-        holder.location.setText(timeCapsuleList.get(position).getLocation());
-        holder.openDate.setText(timeCapsuleList.get(position).getOpenDate());
+        Log.d("TAG", "loc:"+timeCapsuleList.get(position).getLocation());
+        if(timeCapsuleList.get(position).getLocation()==null){
+            holder.location.setVisibility(View.GONE);
+        }else{
+            holder.location.setText(timeCapsuleList.get(position).getLocation());
+        }
+
+        if(!timeCapsuleList.get(position).getClose()){
+            holder.openDate.setVisibility(View.GONE);
+        }else{
+            holder.openDate.setText(timeCapsuleList.get(position).getOpenDate());
+        }
+
 
         holder.fileSize.setText(String.valueOf(timeCapsuleList.get(position).getUploads().size()));
         if(timeCapsuleList.get(position).getClose()){

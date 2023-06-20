@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
         openDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setDate(openDate);
+                Controller.setDate(openDate, MainActivity.this);
             }
         });
         isOpen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -133,11 +133,11 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
                                     startActivity(intent);
                                     Controller.setCurrentTCID(null);
                                 }else{
-                                    controller.deleteTimeCapsule(currentTCID, getApplicationContext());
+                                    Controller.deleteTimeCapsule(currentTCID, getApplicationContext());
                                     Intent intent = new Intent(MainActivity.this, Home.class);
                                     startActivity(intent);
                                     if(Controller.getFileList().size()>0){
-                                        controller.deleteStorageFiles(Controller.getFileList());
+                                        Controller.deleteStorageFiles(Controller.getFileList());
                                     }
                                 }
                             }
@@ -163,10 +163,6 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
                 tOpenDate = openDate.getText().toString();
                 tPin = pin.getText().toString();
 
-                Log.d("TAG","userID:"+owner);
-                Log.d("TAG","openDate:"+tOpenDate);
-                Log.d("TAG","pin:"+tPin);
-
                 if (TextUtils.isEmpty(tName) || TextUtils.isEmpty(tDesc)) {
                     Toast.makeText(MainActivity.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
                 } else if (stat) {
@@ -175,14 +171,14 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
                 } else {
 //                    Toast.makeText(MainActivity.this, "reached", Toast.LENGTH_SHORT).show();
                     if (currentTCID != null && !currentTCID.isEmpty()) {
-                        controller.updateTimeCapsule(currentTCID,tName, tDesc, tLoc,owner, stat, tOpenDate, tPin);
+                        Controller.updateTimeCapsule(currentTCID,tName, tDesc, tLoc,owner, stat, tOpenDate, tPin);
                         Intent nIntent = new Intent(MainActivity.this, FileUpload.class);
                         startActivity(nIntent);
                         Toast.makeText(MainActivity.this, "1", Toast.LENGTH_SHORT).show();
 
                     }else {
                         Toast.makeText(MainActivity.this, "2", Toast.LENGTH_SHORT).show();
-                        timeCapsule = controller.addTimeCapsule(tName, tDesc, tLoc, owner, stat, tOpenDate, tPin);
+                        timeCapsule = Controller.addTimeCapsule(tName, tDesc, tLoc, owner, stat, tOpenDate, tPin);
                         if (timeCapsule != null) {
                             Log.d("TAG", "reached");
                             Controller.setCurrentTCID(timeCapsule.getCapsuleID());
@@ -254,31 +250,7 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
 //
 //    }
 
-    public void setDate(EditText editText) {
-        // Get the current date to set it as the minimum date
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        // Create a new date picker dialog and set the minimum date
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                MainActivity.this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        calendar.set(year, month, day);
-                        // Update the edit text with the selected date
-                        String selectedDate = Controller.getSdf().format(calendar.getTimeInMillis());
-                        editText.setText(selectedDate);
-                    }
-                },
-                year, month, day);
-        datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
-
-        // Show the date picker dialog
-        datePickerDialog.show();
-    }
 
     public void getCurrentTC(String id){
         DatabaseReference tRef = Controller.getReference().child("timeCapsules").child(id);
