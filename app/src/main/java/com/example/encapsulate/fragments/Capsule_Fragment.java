@@ -90,7 +90,6 @@ public class Capsule_Fragment extends Fragment {
         none.setVisibility(View.GONE);
         capsuleRecycler = view.findViewById(R.id.capsuleRecycler);
         capsuleRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        Log.d("TAG", "currentUSer: "+Controller.getCurrentUser().getUserID());
         return view;
 
 

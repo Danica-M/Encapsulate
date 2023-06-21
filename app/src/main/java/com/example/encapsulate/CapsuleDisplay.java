@@ -73,9 +73,6 @@ public class CapsuleDisplay extends AppCompatActivity {
         Log.d("TAG", "stat: "+stat);
 
 
-
-
-
         if(stat!=null){
             d_name.setEnabled(true);
             d_desc.setEnabled(true);
@@ -121,8 +118,6 @@ public class CapsuleDisplay extends AppCompatActivity {
                     d_recycler.setAdapter(gridAdapter);
 
                 }else{
-
-
                     stat2 = d_switch.isChecked();
                     tName = d_name.getText().toString().toUpperCase();
                     tDesc = d_desc.getText().toString();
@@ -133,9 +128,8 @@ public class CapsuleDisplay extends AppCompatActivity {
 
                     if (TextUtils.isEmpty(tName) || TextUtils.isEmpty(tDesc)) {
                         Toast.makeText(CapsuleDisplay.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
-                    } else if (stat2) {
-                        if(TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin))
-                            Toast.makeText(CapsuleDisplay.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
+                    } else if (stat2 && (TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin))) {
+                        Toast.makeText(CapsuleDisplay.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
                     } else {
                         Controller.updateTimeCapsule(Controller.getCurrentTCID(), tName, tDesc, tLoc, Controller.getCurrentUser().getUserID(), stat2, tOpenDate, tPin);
                         Controller.addFile(Controller.getCurrentTCID(), Controller.getFileList());
@@ -158,11 +152,11 @@ public class CapsuleDisplay extends AppCompatActivity {
                                 if(Controller.getCurrentTCID()==null){
                                     Intent intent = new Intent(CapsuleDisplay.this, Home.class);
                                     startActivity(intent);
-                                    Controller.setCurrentTCID(null);
                                 }else{
                                     Controller.deleteTimeCapsule(Controller.getCurrentTCID(), getApplicationContext());
                                     Intent intent = new Intent(CapsuleDisplay.this, Home.class);
                                     startActivity(intent);
+                                    Controller.setCurrentTCID(null);
                                     if(Controller.getFileList().size()>0){
                                         Controller.deleteStorageFiles(Controller.getFileList());
                                     }
@@ -171,9 +165,7 @@ public class CapsuleDisplay extends AppCompatActivity {
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
+                            public void onClick(DialogInterface dialogInterface, int i) {}
                         }).show();
             }
         });
@@ -219,6 +211,9 @@ public class CapsuleDisplay extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(CapsuleDisplay.this, Home.class);
                 startActivity(intent);
+                Controller.setCurrentTCID(null);
+
+
             }
         });
     }
@@ -232,9 +227,7 @@ public class CapsuleDisplay extends AppCompatActivity {
                 for(DataSnapshot capsItem: snapshot.getChildren()){
                     capsule = capsItem.getValue(TimeCapsule.class);
                     if(capsule!=null && capsule.getCapsuleID().equals(tid)){
-
                         Controller.setCurrentTCID(capsule.getCapsuleID());
-                        Log.d("TAG", "c_before: "+Controller.getFileList().size());
                         d_name.setText(capsule.getCapsuleName());
                         d_desc.setText(capsule.getDescription());
                         d_loc.setText(capsule.getLocation());
@@ -248,12 +241,8 @@ public class CapsuleDisplay extends AppCompatActivity {
                             d_date.setText(capsule.getOpenDate());
                             d_pin.setText(capsule.getPin());
                         }
-
-                        Log.d("TAG", "c_: "+Controller.getFileList().size());
-                        Log.d("TAG", "size: "+capsule.getUploads().size() );
                     }
                 }
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

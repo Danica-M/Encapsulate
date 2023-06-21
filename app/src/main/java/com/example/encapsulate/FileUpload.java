@@ -66,14 +66,10 @@ public class FileUpload extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Controller controller = new Controller();
                 Controller.addFile(Controller.getCurrentTCID(), Controller.getFileList());
                 Toast.makeText(FileUpload.this, "Time Capsule successfully created",Toast.LENGTH_SHORT).show();
                 Intent nIntent = new Intent(FileUpload.this, Home.class);
                 startActivity(nIntent);
-
-
             }
         });
 

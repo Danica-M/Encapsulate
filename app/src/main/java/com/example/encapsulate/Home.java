@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.encapsulate.fragments.Capsule_Fragment;
 import com.example.encapsulate.fragments.Home_Fragment;
@@ -61,7 +60,7 @@ public class Home extends AppCompatActivity implements BottomNavigationView.OnNa
                         .commit();
                 return true;
 
-            case R.id.profile:
+            case R.id.locations:
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frameLayout, new Profile_Fragment())
@@ -69,8 +68,6 @@ public class Home extends AppCompatActivity implements BottomNavigationView.OnNa
                 return true;
             case R.id.exit:
                 logoutUser();
-//                Toast.makeText(this, "Exit Clicked", Toast.LENGTH_SHORT).show();
-
         }
         return false;
     }
@@ -91,7 +88,6 @@ public class Home extends AppCompatActivity implements BottomNavigationView.OnNa
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
                     }
                 }).show();
     }

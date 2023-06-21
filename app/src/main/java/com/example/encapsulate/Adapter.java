@@ -59,7 +59,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         holder.name.setText(timeCapsuleList.get(position).getCapsuleName());
         holder.description.setText(timeCapsuleList.get(position).getDescription());
         Log.d("TAG", "loc:"+timeCapsuleList.get(position).getLocation());
-        if(timeCapsuleList.get(position).getLocation()==null){
+        if(timeCapsuleList.get(position).getLocation().equals("")){
             holder.location.setVisibility(View.GONE);
         }else{
             holder.location.setText(timeCapsuleList.get(position).getLocation());
@@ -91,8 +91,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Pin Request");
 
+
+
                     // Inflate the custom layout for the dialog
                     View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_layout, null);
+
                     // Find the input field in the dialog layout
                     EditText editTextInput = dialogView.findViewById(R.id.ed_pin);
                     TextView errorMessage = dialogView.findViewById(R.id.tv_error);

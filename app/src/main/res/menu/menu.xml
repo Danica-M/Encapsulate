@@ -17,9 +17,9 @@
             android:enabled="false"/>
 
         <item
-            android:id="@+id/profile"
-            android:title="Profile"
-            android:icon="@drawable/icon_profile"/>
+            android:id="@+id/locations"
+            android:title="Locations"
+            android:icon="@drawable/icon_location"/>
         <item
             android:id="@+id/exit"
             android:title="Exit"

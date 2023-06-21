@@ -128,7 +128,6 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
                                 if(currentTCID==null){
                                     Intent intent = new Intent(MainActivity.this, Home.class);
                                     startActivity(intent);
-                                    Controller.setCurrentTCID(null);
                                 }else{
                                     Controller.deleteTimeCapsule(currentTCID, getApplicationContext());
                                     Intent intent = new Intent(MainActivity.this, Home.class);
@@ -164,11 +163,7 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
                     Toast.makeText(MainActivity.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
                 } else if (stat && (TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin))) {
                     Toast.makeText(MainActivity.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
-//                    if(TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin))
-//                        Toast.makeText(MainActivity.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
-//                    else{}
                 } else {
-//                    Toast.makeText(MainActivity.this, "reached", Toast.LENGTH_SHORT).show();
                     if (currentTCID != null && !currentTCID.isEmpty()) {
                         Controller.updateTimeCapsule(currentTCID,tName, tDesc, tLoc,owner, stat, tOpenDate, tPin);
                         Intent nIntent = new Intent(MainActivity.this, FileUpload.class);
@@ -232,25 +227,6 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
 
 
 
-
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        uri = data.getData();
-//        imageView.setImageURI(uri);
-//        imageList.add(uri);
-//
-//        if(Controller.getFileList().size()== Controller.Capacity){
-//            upload.setEnabled(false);
-//            capture.setEnabled(false);
-//        }
-//
-//    }
-
-
-
     public void getCurrentTC(String id){
         DatabaseReference tRef = Controller.getReference().child("timeCapsules").child(id);
         tRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -278,7 +254,6 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
     public void onLocationChanged(@NonNull Location location) {
         longitude = location.getLongitude();
         latitude = location.getLatitude();
-
         locationFunc(location);
 
 
@@ -290,7 +265,8 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
             addressList= geocoder.getFromLocation(latitude,longitude,1);
             String city = addressList.get(0).getLocality();
             String country = addressList.get(0).getCountryName();
-            loc.setText(city+","+country);
+            String street = addressList.get(0).getAddressLine(0);
+            loc.setText(street+", "+city+","+country);
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "error occurred: "+ e.getMessage(),Toast.LENGTH_SHORT).show();

@@ -64,8 +64,7 @@ public class Capture_Image extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Capture_Image.this, MainActivity.class);
-                startActivity(intent);
+                onBackPressed();
             }
         });
 
