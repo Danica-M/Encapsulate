@@ -1,15 +1,20 @@
 package com.example.encapsulate;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +31,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     List<File> recyclerFileList;
     int stat;
     Context context;
+    AlertDialog dialog1;
     public GridAdapter(Context context, List<File> recyclerFileList, int stat){
         this.context = context;
         this.recyclerFileList = recyclerFileList;
@@ -69,6 +75,37 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
                 .into(holder.image);
 
 
+        holder.fileHolder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                // Inflate the custom layout for the dialog
+                View dialogView = LayoutInflater.from(context).inflate(R.layout.image_dialog_layout, null);
+                // Find the input field in the dialog layout
+
+                Log.d("TAG", "url:"+file.getFileUrl());
+//                TextView captionM = dialogView.findViewById(R.id.il_caption);
+                FloatingActionButton cancel = dialogView.findViewById(R.id.exit_fab);
+                ImageView image = dialogView.findViewById(R.id.il_image);
+//                captionM.setText(file.getCaption());
+                Picasso.get()
+                        .load(file.getFileUrl())
+                        .into(image);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog1.dismiss();
+                    }
+                });
+
+                builder.setView(dialogView);
+                dialog1 = builder.create();
+                // Show the dialog
+                if (!((Activity) context).isFinishing()) {
+                    dialog1.show();
+                }
+            }
+        });
 
         if(stat == 0){
 

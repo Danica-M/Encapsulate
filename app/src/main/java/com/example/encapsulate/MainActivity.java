@@ -71,12 +71,9 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         String currentTCID = Controller.getCurrentTCID();
         String owner = Controller.getCurrentUser().getUserID();
         controller = new Controller();
-        Controller.NewList();
         openDateLabel = findViewById(R.id.textView5);
         pinLabel = findViewById(R.id.textView6);
         name = findViewById(R.id.name);
@@ -165,9 +162,11 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
 
                 if (TextUtils.isEmpty(tName) || TextUtils.isEmpty(tDesc)) {
                     Toast.makeText(MainActivity.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
-                } else if (stat) {
-                    if(TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin))
-                        Toast.makeText(MainActivity.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
+                } else if (stat && (TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin))) {
+                    Toast.makeText(MainActivity.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
+//                    if(TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin))
+//                        Toast.makeText(MainActivity.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
+//                    else{}
                 } else {
 //                    Toast.makeText(MainActivity.this, "reached", Toast.LENGTH_SHORT).show();
                     if (currentTCID != null && !currentTCID.isEmpty()) {

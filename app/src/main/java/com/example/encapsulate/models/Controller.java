@@ -133,7 +133,7 @@ public class Controller {
         capsuleRef.child("description").setValue(description);
         capsuleRef.child("location").setValue(location);
         capsuleRef.child("owner").setValue(owner);
-        capsuleRef.child("open").setValue(isClose);
+        capsuleRef.child("close").setValue(isClose);
         capsuleRef.child("openDate").setValue(openDate);
         capsuleRef.child("pin").setValue(pin);
 
