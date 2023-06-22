@@ -101,13 +101,11 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Perform actions based on the switch state change
                 if (isChecked) {
-                    Toast.makeText(MainActivity.this, "ON", Toast.LENGTH_SHORT).show();
                     openDate.setVisibility(View.VISIBLE);
                     openDateLabel.setVisibility(View.VISIBLE);
                     pin.setVisibility(View.VISIBLE);
                     pinLabel.setVisibility(View.VISIBLE);
                 } else {
-                    Toast.makeText(MainActivity.this, "OFF", Toast.LENGTH_SHORT).show();
                     openDate.setVisibility(View.INVISIBLE);
                     openDateLabel.setVisibility(View.INVISIBLE);
                     pin.setVisibility(View.INVISIBLE);

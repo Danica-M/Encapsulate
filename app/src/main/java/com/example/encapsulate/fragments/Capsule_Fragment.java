@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.encapsulate.Adapter;
 import com.example.encapsulate.R;
@@ -35,6 +37,8 @@ public class Capsule_Fragment extends Fragment {
     Controller controller;
     private Adapter adapter;
     private TextView none;
+
+    SearchView search;
     RecyclerView capsuleRecycler;
     private List<TimeCapsule> timeCapsList;
 
@@ -90,9 +94,38 @@ public class Capsule_Fragment extends Fragment {
         none.setVisibility(View.GONE);
         capsuleRecycler = view.findViewById(R.id.capsuleRecycler);
         capsuleRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        search = view.findViewById(R.id.search);
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                filterList(s);
+                return true;
+            }
+        });
         return view;
 
 
+    }
+
+    public void filterList(String text){
+        ArrayList<TimeCapsule> filteredList = new ArrayList<>();
+        for(TimeCapsule item:timeCapsList){
+            if(item.getCapsuleName().toLowerCase().contains(text.toLowerCase())){
+                filteredList.add(item);
+            }
+        }
+        if(filteredList.isEmpty()){
+            adapter.setFilteredList(filteredList);
+            Toast.makeText(getContext(), "No Time Capsule found with this name", Toast.LENGTH_SHORT).show();
+        }else{
+            adapter.setFilteredList(filteredList);
+        }
     }
 
     public void getUserCapsules(){
