@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.encapsulate.LocationAdapter;
+import com.example.encapsulate.adapters.LocationAdapter;
 import com.example.encapsulate.R;
 import com.example.encapsulate.models.Controller;
 import com.example.encapsulate.models.TimeCapsule;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Location_Fragment extends Fragment {
+public class LocationFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,7 +38,7 @@ public class Location_Fragment extends Fragment {
     private LocationAdapter locationAdapter;
     private TextView none2;
     RecyclerView locationRecycler;
-    public Location_Fragment() {
+    public LocationFragment() {
         // Required empty public constructor
     }
 

@@ -9,7 +9,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -29,36 +28,33 @@ import com.google.firebase.storage.UploadTask;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class uploadImage extends AppCompatActivity {
-
-    Controller controller;
-    Intent intent2;
+public class CaptureImage extends AppCompatActivity {
     Uri uri;
+    Controller controller;
     ImageView imgView;
     EditText et_caption;
-    Button chooseBtn, addBtn, cancelBtn;
+    Button captureBtn, addBtn, cancelBtn;
+    Intent intent2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_image);
+        setContentView(R.layout.activity_capture_image);
+        imgView = findViewById(R.id.imageView_2);
+        et_caption = findViewById(R.id.captionText_2);
+        captureBtn = findViewById(R.id.capturebtn);
+        addBtn = findViewById(R.id.addBtn_2);
+        cancelBtn = findViewById(R.id.cancelBtn_2);
         controller = new Controller();
-        imgView = findViewById(R.id.imageView_1);
-        et_caption = findViewById(R.id.captionText_1);
-        chooseBtn = findViewById(R.id.chooseBtn);
-        addBtn = findViewById(R.id.addBtn_1);
-        cancelBtn = findViewById(R.id.cancelBtn_1);
-
         intent2 = getIntent();
         String status = intent2.getStringExtra("type");
         String cid = intent2.getStringExtra("id");
 
-
-        chooseBtn.setOnClickListener(new View.OnClickListener() {
+        captureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ImagePicker.with(uploadImage.this)
+                ImagePicker.with(CaptureImage.this)
                         .crop()
-                        .galleryOnly()
+                        .cameraOnly()
                         .maxResultSize(1080, 1080)
                         .start();
             }
@@ -74,6 +70,7 @@ public class uploadImage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (uri != null) {
+
                     String type = getFileExtension(uri);
                     String cap = et_caption.getText().toString();
 
@@ -92,33 +89,34 @@ public class uploadImage extends AppCompatActivity {
                                             String downloadUrl = downloadUri.toString();
                                             File newF = new File(downloadUrl, cap, type);
                                             Controller.addItem(newF);
-                                            Toast.makeText(uploadImage.this, "Image added successfully", Toast.LENGTH_SHORT).show();
+
+                                            Toast.makeText(CaptureImage.this, "Image added successfully", Toast.LENGTH_SHORT).show();
                                             Intent fIntent;
                                             if(status==null){
-                                                fIntent = new Intent(uploadImage.this, FileUpload.class);
+                                                fIntent = new Intent(CaptureImage.this, FileUpload.class);
                                             }else{
-                                                fIntent = new Intent(uploadImage.this, Capsule_Display.class);
+                                                fIntent = new Intent(CaptureImage.this, CapsuleDisplay.class);
                                                 fIntent.putExtra("id", cid);
                                                 fIntent.putExtra("stat", "yes");
                                             }
                                             startActivity(fIntent);
                                             finish();
-
                                         }
-                                        });
+                                    });
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(uploadImage.this, "unsuccessfully", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CaptureImage.this, "unsuccessfully", Toast.LENGTH_SHORT).show();
                                 }
                             });
                 } else {
-                    Toast.makeText(uploadImage.this, "No file selected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CaptureImage.this, "No file selected", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -126,13 +124,12 @@ public class uploadImage extends AppCompatActivity {
         if (resultCode == RESULT_OK && data != null) {
             uri = data.getData();
             imgView.setImageURI(uri);
-            imgView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
     }
-
     public String getFileExtension(Uri uri){
         ContentResolver cr = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(uri));
     }
+
 }

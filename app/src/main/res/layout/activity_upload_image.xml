@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/cream"
     android:padding="20dp"
-    tools:context=".uploadImage">
+    tools:context=".UploadImage">
 
     <TextView
         android:id="@+id/textView7"

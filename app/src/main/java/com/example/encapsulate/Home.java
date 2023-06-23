@@ -10,9 +10,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.encapsulate.fragments.Capsule_Fragment;
-import com.example.encapsulate.fragments.Home_Fragment;
-import com.example.encapsulate.fragments.Location_Fragment;
+import com.example.encapsulate.fragments.CapsuleFragment;
+import com.example.encapsulate.fragments.HomeFragment;
+import com.example.encapsulate.fragments.LocationFragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -38,7 +38,7 @@ public class Home extends AppCompatActivity implements BottomNavigationView.OnNa
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Home.this, MainActivity.class);
+                Intent intent = new Intent(Home.this, CreateDetailsPage.class);
                 startActivity(intent);
             }
         });
@@ -54,21 +54,21 @@ public class Home extends AppCompatActivity implements BottomNavigationView.OnNa
             case R.id.home:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frameLayout, new Home_Fragment())
+                        .replace(R.id.frameLayout, new HomeFragment())
                         .commit();
                 return true;
 
             case R.id.capsule:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frameLayout, new Capsule_Fragment())
+                        .replace(R.id.frameLayout, new CapsuleFragment())
                         .commit();
                 return true;
 
             case R.id.locations:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frameLayout, new Location_Fragment())
+                        .replace(R.id.frameLayout, new LocationFragment())
                         .commit();
                 return true;
             case R.id.exit:

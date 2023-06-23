@@ -1,4 +1,4 @@
-package com.example.encapsulate;
+package com.example.encapsulate.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -21,6 +21,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.encapsulate.CapsuleDisplay;
+import com.example.encapsulate.R;
 import com.example.encapsulate.models.TimeCapsule;
 
 
@@ -53,7 +55,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         if (timeCapsuleList == null || timeCapsuleList.isEmpty()) {
             return; // Skip binding if the list is empty or null
         }
-        Log.d("TAG", "uS: "+timeCapsuleList.get(position).getUploads().size());
         holder.name.setText(timeCapsuleList.get(position).getCapsuleName());
         holder.description.setText(timeCapsuleList.get(position).getDescription());
         if(timeCapsuleList.get(position).getLocation().equals("")){
@@ -86,8 +87,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Pin Request");
 
-
-
                     // Inflate the custom layout for the dialog
                     View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_layout, null);
 
@@ -105,7 +104,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                             Log.d("TAG", "pin: "+timeCapsuleList.get(position).getPin());
                             if(userInput.equals(timeCapsuleList.get(position).getPin())){
 
-                                Intent intent = new Intent(view.getContext(), Capsule_Display.class);
+                                Intent intent = new Intent(view.getContext(), CapsuleDisplay.class);
                                 intent.putExtra("id", timeCapsuleList.get(position).getCapsuleID());
                                 context.startActivity(intent);
                                 dialog.dismiss();
@@ -130,7 +129,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                     }
 
                 }else {
-                    Intent intent = new Intent(view.getContext(), Capsule_Display.class);
+                    Intent intent = new Intent(view.getContext(), CapsuleDisplay.class);
                     intent.putExtra("id", timeCapsuleList.get(position).getCapsuleID());
                     context.startActivity(intent);
                 }

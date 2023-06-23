@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/cream"
     android:padding="10dp"
-    tools:context=".Capsule_Display">
+    tools:context=".CapsuleDisplay">
 
     <TextView
         android:id="@+id/currentSize2"

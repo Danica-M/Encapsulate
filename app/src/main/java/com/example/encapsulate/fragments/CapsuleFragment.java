@@ -15,7 +15,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.encapsulate.Adapter;
+import com.example.encapsulate.adapters.Adapter;
 import com.example.encapsulate.R;
 import com.example.encapsulate.models.Controller;
 import com.example.encapsulate.models.TimeCapsule;
@@ -27,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Capsule_Fragment extends Fragment {
+public class CapsuleFragment extends Fragment {
     Controller controller;
     private Adapter adapter;
     private TextView none;
@@ -42,7 +42,7 @@ public class Capsule_Fragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    public Capsule_Fragment() {
+    public CapsuleFragment() {
         // Required empty public constructor
     }
 

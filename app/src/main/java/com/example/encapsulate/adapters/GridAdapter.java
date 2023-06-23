@@ -1,4 +1,4 @@
-package com.example.encapsulate;
+package com.example.encapsulate.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.encapsulate.R;
 import com.example.encapsulate.models.File;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.storage.FirebaseStorage;
@@ -99,7 +100,6 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         });
 
         if(stat == 0){
-
             holder.delBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

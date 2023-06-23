@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.encapsulate.adapters.GridAdapter;
 import com.example.encapsulate.models.Controller;
 
 
@@ -44,7 +45,7 @@ public class FileUpload extends AppCompatActivity {
                 if(Controller.fileList.size()==20){
                     Toast.makeText(FileUpload.this, "You have reach the maximum number of files.", Toast.LENGTH_SHORT).show();
                 }else{
-                    Intent intent = new Intent(FileUpload.this, uploadImage.class);
+                    Intent intent = new Intent(FileUpload.this, UploadImage.class);
                     startActivity(intent);
                 }
 
@@ -58,7 +59,7 @@ public class FileUpload extends AppCompatActivity {
                 if(Controller.fileList.size()==20){
                     Toast.makeText(FileUpload.this, "You have reach the maximum number of files.", Toast.LENGTH_SHORT).show();
                 }else{
-                    Intent intent = new Intent(FileUpload.this, Capture_Image.class);
+                    Intent intent = new Intent(FileUpload.this, CaptureImage.class);
                     startActivity(intent);
                 }
 
@@ -69,7 +70,7 @@ public class FileUpload extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent nIntent = new Intent(FileUpload.this, MainActivity.class);
+                Intent nIntent = new Intent(FileUpload.this, CreateDetailsPage.class);
                 startActivity(nIntent);
             }
         });

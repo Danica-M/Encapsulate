@@ -49,7 +49,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class MainActivity extends AppCompatActivity  implements LocationListener {
+public class CreateDetailsPage extends AppCompatActivity  implements LocationListener {
 
 
     TextView openDateLabel, pinLabel;
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
         openDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Controller.setDate(openDate, MainActivity.this);
+                Controller.setDate(openDate, CreateDetailsPage.this);
             }
         });
         isOpen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -114,18 +114,18 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
             @Override
             public void onClick(View view) {
 
-                new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this)
+                new androidx.appcompat.app.AlertDialog.Builder(CreateDetailsPage.this)
                         .setTitle("Create Time Capsule Cancellation")
                         .setMessage("Are you sure you want to cancel creating this time capsule?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if(currentTCID==null){
-                                    Intent intent = new Intent(MainActivity.this, Home.class);
+                                    Intent intent = new Intent(CreateDetailsPage.this, Home.class);
                                     startActivity(intent);
                                 }else{
                                     Controller.deleteTimeCapsule(currentTCID, getApplicationContext());
-                                    Intent intent = new Intent(MainActivity.this, Home.class);
+                                    Intent intent = new Intent(CreateDetailsPage.this, Home.class);
                                     startActivity(intent);
                                     if(Controller.getFileList().size()>0){
                                         Controller.deleteStorageFiles(Controller.getFileList());
@@ -155,23 +155,23 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
                 tPin = pin.getText().toString();
 
                 if (TextUtils.isEmpty(tName) || TextUtils.isEmpty(tDesc)) {
-                    Toast.makeText(MainActivity.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateDetailsPage.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
                 } else if (stat && (TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin))) {
-                    Toast.makeText(MainActivity.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateDetailsPage.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
                 } else {
                     if (currentTCID != null && !currentTCID.isEmpty()) {
                         Controller.updateTimeCapsule(currentTCID,tName, tDesc, tLoc,owner, stat, tOpenDate, tPin);
-                        Intent nIntent = new Intent(MainActivity.this, FileUpload.class);
+                        Intent nIntent = new Intent(CreateDetailsPage.this, FileUpload.class);
                         startActivity(nIntent);
 
                     }else {
                         timeCapsule = Controller.addTimeCapsule(tName, tDesc, tLoc, owner, stat, tOpenDate, tPin);
                         if (timeCapsule != null) {
                             Controller.setCurrentTCID(timeCapsule.getCapsuleID());
-                            Intent nIntent = new Intent(MainActivity.this, FileUpload.class);
+                            Intent nIntent = new Intent(CreateDetailsPage.this, FileUpload.class);
                             startActivity(nIntent);
                         } else {
-                            Toast.makeText(MainActivity.this, "Error occurred!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CreateDetailsPage.this, "Error occurred!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -184,14 +184,14 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
             public void onClick(View view) {
 
                 // Check for location permissions
-                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                        && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(CreateDetailsPage.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(CreateDetailsPage.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // Request permissions if not granted
-                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
+                    ActivityCompat.requestPermissions(CreateDetailsPage.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
                 } else {
                     // Permissions are already granted, proceed with location retrieval
                     fusedLocationProviderClient.getLastLocation()
-                            .addOnSuccessListener(MainActivity.this, new OnSuccessListener<Location>() {
+                            .addOnSuccessListener(CreateDetailsPage.this, new OnSuccessListener<Location>() {
                                 @Override
                                 public void onSuccess(Location location) {
                                     if (location != null) {
@@ -200,15 +200,15 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
                                         locationFunc(location);
                                     } else {
                                         // Location is null, handle the case
-                                        Toast.makeText(MainActivity.this, "Unable to retrieve location", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(CreateDetailsPage.this, "Unable to retrieve location", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             })
-                            .addOnFailureListener(MainActivity.this, new OnFailureListener() {
+                            .addOnFailureListener(CreateDetailsPage.this, new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     // Failed to retrieve location
-                                    Toast.makeText(MainActivity.this, "Failed to retrieve location: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CreateDetailsPage.this, "Failed to retrieve location: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }

@@ -28,33 +28,36 @@ import com.google.firebase.storage.UploadTask;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Capture_Image extends AppCompatActivity {
-    Uri uri;
+public class UploadImage extends AppCompatActivity {
+
     Controller controller;
+    Intent intent2;
+    Uri uri;
     ImageView imgView;
     EditText et_caption;
-    Button captureBtn, addBtn, cancelBtn;
-    Intent intent2;
+    Button chooseBtn, addBtn, cancelBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_capture_image);
-        imgView = findViewById(R.id.imageView_2);
-        et_caption = findViewById(R.id.captionText_2);
-        captureBtn = findViewById(R.id.capturebtn);
-        addBtn = findViewById(R.id.addBtn_2);
-        cancelBtn = findViewById(R.id.cancelBtn_2);
+        setContentView(R.layout.activity_upload_image);
         controller = new Controller();
+        imgView = findViewById(R.id.imageView_1);
+        et_caption = findViewById(R.id.captionText_1);
+        chooseBtn = findViewById(R.id.chooseBtn);
+        addBtn = findViewById(R.id.addBtn_1);
+        cancelBtn = findViewById(R.id.cancelBtn_1);
+
         intent2 = getIntent();
         String status = intent2.getStringExtra("type");
         String cid = intent2.getStringExtra("id");
 
-        captureBtn.setOnClickListener(new View.OnClickListener() {
+
+        chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ImagePicker.with(Capture_Image.this)
+                ImagePicker.with(UploadImage.this)
                         .crop()
-                        .cameraOnly()
+                        .galleryOnly()
                         .maxResultSize(1080, 1080)
                         .start();
             }
@@ -70,7 +73,6 @@ public class Capture_Image extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (uri != null) {
-
                     String type = getFileExtension(uri);
                     String cap = et_caption.getText().toString();
 
@@ -89,34 +91,33 @@ public class Capture_Image extends AppCompatActivity {
                                             String downloadUrl = downloadUri.toString();
                                             File newF = new File(downloadUrl, cap, type);
                                             Controller.addItem(newF);
-
-                                            Toast.makeText(Capture_Image.this, "Image added successfully", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(UploadImage.this, "Image added successfully", Toast.LENGTH_SHORT).show();
                                             Intent fIntent;
                                             if(status==null){
-                                                fIntent = new Intent(Capture_Image.this, FileUpload.class);
+                                                fIntent = new Intent(UploadImage.this, FileUpload.class);
                                             }else{
-                                                fIntent = new Intent(Capture_Image.this, Capsule_Display.class);
+                                                fIntent = new Intent(UploadImage.this, CapsuleDisplay.class);
                                                 fIntent.putExtra("id", cid);
                                                 fIntent.putExtra("stat", "yes");
                                             }
                                             startActivity(fIntent);
                                             finish();
+
                                         }
-                                    });
+                                        });
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(Capture_Image.this, "unsuccessfully", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(UploadImage.this, "unsuccessfully", Toast.LENGTH_SHORT).show();
                                 }
                             });
                 } else {
-                    Toast.makeText(Capture_Image.this, "No file selected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UploadImage.this, "No file selected", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -124,12 +125,13 @@ public class Capture_Image extends AppCompatActivity {
         if (resultCode == RESULT_OK && data != null) {
             uri = data.getData();
             imgView.setImageURI(uri);
+            imgView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
     }
+
     public String getFileExtension(Uri uri){
         ContentResolver cr = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(uri));
     }
-
 }
