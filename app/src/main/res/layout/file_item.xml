@@ -41,7 +41,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/image"/>
 
         <TextView
             android:id="@+id/cap"
@@ -51,7 +52,7 @@
             android:maxLines="3"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
-            android:text="TextView"
+            android:text="@string/caption"
             android:textAlignment="viewStart"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/image"

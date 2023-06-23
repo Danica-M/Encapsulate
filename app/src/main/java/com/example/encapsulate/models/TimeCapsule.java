@@ -66,6 +66,9 @@ public class TimeCapsule {
         return openDate;
     }
 
+    public Integer getFileCapacity() {
+        return fileCapacity;
+    }
 
     public String getPin() {
         return pin;

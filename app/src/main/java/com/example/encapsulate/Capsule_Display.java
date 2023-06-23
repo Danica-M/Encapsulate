@@ -108,7 +108,7 @@ public class Capsule_Display extends AppCompatActivity {
 
                 }else{
                     stat2 = d_switch.isChecked();
-                    tName = d_name.getText().toString().toUpperCase();
+                    tName = d_name.getText().toString();
                     tDesc = d_desc.getText().toString();
                     tLoc = d_loc.getText().toString();
                     tOpenDate = d_date.getText().toString();

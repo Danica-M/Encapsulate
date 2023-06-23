@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat"
-        android:text="ADD FILE"
+        android:text="@string/add_file"
         android:textColor="@color/blue"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat"
-        android:text="0"
+        android:text="@string/_0"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/fileCap"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat"
-        android:text="/20"
+        android:text="@string/_20"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
@@ -60,7 +60,7 @@
             android:drawableStart="@drawable/icon_upload"
             android:fontFamily="@font/montserrat"
             android:padding="10dp"
-            android:text="Upload"
+            android:text="@string/upload"
             android:textSize="16sp"
             android:textStyle="bold"
             tools:ignore="MissingConstraints" />
@@ -76,7 +76,7 @@
             android:drawableStart="@drawable/icon_capture"
             android:fontFamily="@font/montserrat"
             android:padding="10dp"
-            android:text="Capture"
+            android:text="@string/capture"
             android:textSize="16sp"
             android:textStyle="bold"
             tools:ignore="MissingConstraints" />
@@ -104,7 +104,7 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/neutral_button"
         android:fontFamily="@font/montserrat"
-        android:text="Back"
+        android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -116,7 +116,7 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/positive_button"
         android:fontFamily="@font/montserrat"
-        android:text="save"
+        android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

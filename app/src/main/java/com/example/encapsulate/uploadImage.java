@@ -59,9 +59,7 @@ public class uploadImage extends AppCompatActivity {
                 ImagePicker.with(uploadImage.this)
                         .crop()
                         .galleryOnly()
-//                        .cropSquare()	    			//Crop image(Optional), Check Customization for more option
-//                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .maxResultSize(1080, 1080)
                         .start();
             }
         });
@@ -92,7 +90,6 @@ public class uploadImage extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Uri downloadUri) {
                                             String downloadUrl = downloadUri.toString();
-                                            Log.d("TAG", "dURL: " + downloadUrl);
                                             File newF = new File(downloadUrl, cap, type);
                                             Controller.addItem(newF);
                                             Toast.makeText(uploadImage.this, "Image added successfully", Toast.LENGTH_SHORT).show();
@@ -130,7 +127,6 @@ public class uploadImage extends AppCompatActivity {
             uri = data.getData();
             imgView.setImageURI(uri);
             imgView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            Log.d("TAG", "uri:" + uri);
         }
     }
 

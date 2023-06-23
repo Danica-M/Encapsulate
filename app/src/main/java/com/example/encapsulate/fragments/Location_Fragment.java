@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,12 +86,11 @@ public class Location_Fragment extends Fragment {
                         uniqueLocations.add(location);
                     }
                     }
-
                 if(uniqueLocations.size()==0) {
                     none2.setVisibility(View.VISIBLE);
                 }
                 locationAdapter.notifyDataSetChanged();
-
+                Log.d("TAG", "loc:"+uniqueLocations);
                 }
 
             @Override

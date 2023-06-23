@@ -7,7 +7,6 @@
     android:background="#00BCD4"
     tools:context=".fragments.Home_Fragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,7 +21,7 @@
             android:layout_marginBottom="20dp"
             android:background="@color/light_blue"
             android:fontFamily="@font/montserrat"
-            android:text="User Manual"
+            android:text="@string/user_manual"
             android:textColor="@color/dark_blue"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/btn_about"
@@ -36,7 +35,7 @@
             android:layout_marginBottom="80dp"
             android:background="@color/light_blue"
             android:fontFamily="@font/montserrat"
-            android:text="About Us"
+            android:text="@string/about_us"
             android:textColor="@color/dark_blue"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -80,7 +79,7 @@
                         android:id="@+id/tv_total"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="00"
+                        android:text="@string/_00"
                         android:textAlignment="center"
                         android:textColor="@color/dark_blue"
                         android:textSize="60sp"
@@ -90,7 +89,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/montserrat"
-                        android:text="Capsules"
+                        android:text="@string/capsules"
                         android:textAlignment="center"
                         android:textColor="@color/light_blue"
                         android:textSize="18sp"
@@ -110,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/pacifico"
-                        android:text="Hi, User!"
+                        android:text="@string/hi_user"
                         android:textColor="@color/white"
                         android:textSize="30sp" />
 
@@ -132,7 +131,7 @@
                             android:drawableStart="@drawable/icon_lock"
                             android:fontFamily="@font/montserrat"
                             android:padding="2dp"
-                            android:text="0"
+                            android:text="@string/_0"
                             android:textColor="@color/dark_blue"
                             android:textSize="25sp" />
 
@@ -146,7 +145,7 @@
                             android:drawableStart="@drawable/icon_unlock"
                             android:fontFamily="@font/montserrat"
                             android:padding="2dp"
-                            android:text="0"
+                            android:text="@string/_0"
                             android:textColor="@color/dark_blue"
                             android:textSize="25sp" />
                     </LinearLayout>
@@ -164,7 +163,8 @@
             android:src="@drawable/logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/logo"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

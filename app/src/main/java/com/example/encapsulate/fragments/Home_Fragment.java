@@ -1,6 +1,8 @@
 package com.example.encapsulate.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -31,7 +33,7 @@ public class Home_Fragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private List<TimeCapsule> allCapsule;
-    Button lock, unlock;
+    Button lock, unlock, manual, about ;
     TextView wel, total;
 
     public Home_Fragment() {
@@ -57,11 +59,23 @@ public class Home_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         lock = view.findViewById(R.id.btn_lock);
         unlock = view.findViewById(R.id.btn_unlock);
+        manual = view.findViewById(R.id.btn_manual);
+        about = view.findViewById(R.id.btn_about);
         wel = view.findViewById(R.id.tv_wel);
         total = view.findViewById(R.id.tv_total);
         getAllCapsules();
         wel.setText("Hi, "+Controller.getCurrentUser().getFirstName());
         // Inflate the layout for this fragment
+
+
+        manual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String pdfUrl = "https://firebasestorage.googleapis.com/v0/b/encapsulate-e94c4.appspot.com/o/Files%2FISCG7424_Mobile_Software_Development_Group_Assignment.pdf?alt=media&token=dc36668d-503e-4a66-85e9-bc7697662ee6"; // Replace with your PDF URL
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(pdfUrl));
+                startActivity(browserIntent);
+            }
+        });
         return view;
     }
     public void getAllCapsules(){

@@ -14,9 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/montserrat"
-        android:text="Caption"
+        android:text="@string/caption"
         android:textColor="@color/blue"
         android:textSize="16sp"
+        android:labelFor="@id/captionText_1"
         app:layout_constraintEnd_toEndOf="@+id/imageView_1"
         app:layout_constraintStart_toStartOf="@+id/imageView_1"
         app:layout_constraintTop_toBottomOf="@+id/imageView_1" />
@@ -27,7 +28,7 @@
         android:layout_height="wrap_content"
         android:background="@color/light_blue"
         android:fontFamily="@font/montserrat"
-        android:text="Choose File"
+        android:text="@string/choose_file"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +43,8 @@
         app:layout_constraintEnd_toEndOf="@+id/chooseBtn"
         app:layout_constraintStart_toStartOf="@+id/chooseBtn"
         app:layout_constraintTop_toBottomOf="@+id/chooseBtn"
-        app:srcCompat="@drawable/ic_photo_black_48dp" />
+        app:srcCompat="@drawable/ic_photo_black_48dp"
+        android:contentDescription="@string/image"/>
 
     <EditText
         android:id="@+id/captionText_1"
@@ -67,7 +69,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/positive_button"
         android:fontFamily="@font/montserrat"
-        android:text="Add"
+        android:text="@string/add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/captionText_1" />
 
@@ -77,7 +79,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/negative_button"
         android:fontFamily="@font/montserrat"
-        android:text="cancel"
+        android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -86,7 +88,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat"
-        android:text="UPLOAD IMAGE FILE"
+        android:text="@string/upload_image_file"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/blue"

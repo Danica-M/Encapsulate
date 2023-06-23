@@ -9,7 +9,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -54,8 +53,8 @@ public class Capture_Image extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ImagePicker.with(Capture_Image.this)
+                        .crop()
                         .cameraOnly()
-//                        .cropSquare()
                         .maxResultSize(1080, 1080)
                         .start();
             }
@@ -88,8 +87,6 @@ public class Capture_Image extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Uri downloadUri) {
                                             String downloadUrl = downloadUri.toString();
-                                            // Use the download URL as needed
-                                            Log.d("TAG", "dURL from cap: " + downloadUrl);
                                             File newF = new File(downloadUrl, cap, type);
                                             Controller.addItem(newF);
 

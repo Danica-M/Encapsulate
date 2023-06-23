@@ -40,7 +40,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         this.context = context;
         this.locationList = locationList;
         addressList = new ArrayList<>();
-        getLongLat();
+
     }
 
 
@@ -49,8 +49,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     public LocationAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.location_item, parent, false);
-
-
+        getLongLat();
         return new ViewHolder(view);
     }
 
@@ -62,10 +61,10 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         holder.direct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (addressList.isEmpty() || position >= addressList.size()) {
-                    Toast.makeText(context, "Address not available", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (addressList.isEmpty() || position >= addressList.size()) {
+//                    Toast.makeText(context, "Address not available", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 double latitude = addressList.get(position).getLatitude();
                 double longitude = addressList.get(position).getLongitude();
 

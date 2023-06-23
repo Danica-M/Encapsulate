@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="left"
+    android:layout_gravity="start"
     android:layout_margin="10dp"
     android:layout_weight="1"
     app:cardBackgroundColor="@color/white"
@@ -29,7 +29,7 @@
             android:layout_marginEnd="70dp"
             android:fontFamily="@font/montserrat"
             android:maxLines="3"
-            android:text="Location"
+            android:text="@string/location"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/icon_direction" />
+            app:srcCompat="@drawable/icon_direction"
+            android:contentDescription="@string/direction"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

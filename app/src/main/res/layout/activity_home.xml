@@ -19,7 +19,7 @@
             android:id="@+id/frameLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#BC9090"></FrameLayout>
+            android:background="#BC9090"/>
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomAppBar"
@@ -50,7 +50,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/icon_add"
             app:backgroundTint="@color/blue"
-            app:layout_anchor="@id/bottomAppBar" />
+            app:layout_anchor="@id/bottomAppBar"
+            android:contentDescription="@string/add"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

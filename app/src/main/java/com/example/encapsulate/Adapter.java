@@ -53,6 +53,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         if (timeCapsuleList == null || timeCapsuleList.isEmpty()) {
             return; // Skip binding if the list is empty or null
         }
+        Log.d("TAG", "uS: "+timeCapsuleList.get(position).getUploads().size());
         holder.name.setText(timeCapsuleList.get(position).getCapsuleName());
         holder.description.setText(timeCapsuleList.get(position).getDescription());
         if(timeCapsuleList.get(position).getLocation().equals("")){
@@ -66,8 +67,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         }else{
             holder.openDate.setText(timeCapsuleList.get(position).getOpenDate());
         }
-
-
         holder.fileSize.setText(String.valueOf(timeCapsuleList.get(position).getUploads().size()));
         if(timeCapsuleList.get(position).getClose()){
             holder.stat.setBackgroundResource(R.drawable.icon_lock);
