@@ -11,37 +11,38 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/cream"
+        android:clickable="false"
         android:padding="20dp">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_manual"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_marginBottom="20dp"
+            android:background="@color/light_blue"
+            android:fontFamily="@font/montserrat"
             android:text="User Manual"
+            android:textColor="@color/dark_blue"
+            android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/btn_about"
             app:layout_constraintEnd_toEndOf="@+id/btn_about"
             app:layout_constraintStart_toStartOf="@+id/btn_about" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_about"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_marginBottom="80dp"
+            android:background="@color/light_blue"
+            android:fontFamily="@font/montserrat"
             android:text="About Us"
+            android:textColor="@color/dark_blue"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
-            android:id="@+id/iv_logo"
-            android:layout_width="300dp"
-            android:layout_height="150dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/common_google_signin_btn_text_dark" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
@@ -52,18 +53,19 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="10dp"
-            android:layout_marginTop="30dp"
-            android:onClick="mBooking"
-            app:cardBackgroundColor="@color/purple_200"
+            android:layout_marginTop="20dp"
+            android:clickable="false"
+            app:cardBackgroundColor="@color/cream"
             app:cardCornerRadius="10dp"
             app:cardElevation="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_logo">
+            app:layout_constraintEnd_toEndOf="@+id/imageView3"
+            app:layout_constraintStart_toStartOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/gradient_background"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -78,18 +80,19 @@
                         android:id="@+id/tv_total"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="10"
+                        android:text="00"
                         android:textAlignment="center"
-                        android:textColor="@color/purple_500"
+                        android:textColor="@color/dark_blue"
                         android:textSize="60sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:fontFamily="@font/montserrat"
                         android:text="Capsules"
                         android:textAlignment="center"
-                        android:textColor="@color/purple_500"
+                        android:textColor="@color/light_blue"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -105,17 +108,18 @@
                         android:id="@+id/tv_wel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/pacifico"
                         android:text="Hi, User!"
-                        android:textSize="30sp"
-                        android:textStyle="bold"
-                        android:layout_weight="1"/>
+                        android:textColor="@color/white"
+                        android:textSize="30sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_weight="1"
-                        android:gravity="bottom">
+                        android:gravity="bottom"
+                        android:orientation="horizontal">
 
 
                         <androidx.appcompat.widget.AppCompatButton
@@ -124,10 +128,12 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
-                            android:background="@drawable/normal_button"
+                            android:background="@color/white"
                             android:drawableStart="@drawable/icon_lock"
+                            android:fontFamily="@font/montserrat"
                             android:padding="2dp"
-                            android:text="10"
+                            android:text="0"
+                            android:textColor="@color/dark_blue"
                             android:textSize="25sp" />
 
                         <androidx.appcompat.widget.AppCompatButton
@@ -136,10 +142,12 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
-                            android:background="@drawable/normal_button"
+                            android:background="@color/white"
                             android:drawableStart="@drawable/icon_unlock"
+                            android:fontFamily="@font/montserrat"
                             android:padding="2dp"
-                            android:text="9"
+                            android:text="0"
+                            android:textColor="@color/dark_blue"
                             android:textSize="25sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -148,6 +156,15 @@
 
 
         </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:src="@drawable/logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

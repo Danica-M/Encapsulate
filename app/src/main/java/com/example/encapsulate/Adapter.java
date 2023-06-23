@@ -4,10 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -28,10 +24,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.encapsulate.models.TimeCapsule;
 
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
@@ -55,17 +50,18 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull Adapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        TimeCapsule clickedCapsule = timeCapsuleList.get(position);
+        if (timeCapsuleList == null || timeCapsuleList.isEmpty()) {
+            return; // Skip binding if the list is empty or null
+        }
         holder.name.setText(timeCapsuleList.get(position).getCapsuleName());
         holder.description.setText(timeCapsuleList.get(position).getDescription());
-        Log.d("TAG", "loc:"+timeCapsuleList.get(position).getLocation());
         if(timeCapsuleList.get(position).getLocation().equals("")){
             holder.location.setVisibility(View.GONE);
         }else{
             holder.location.setText(timeCapsuleList.get(position).getLocation());
         }
 
-        if(!timeCapsuleList.get(position).getClose()){
+        if(Objects.equals(timeCapsuleList.get(position).getOpenDate(), "")){
             holder.openDate.setVisibility(View.GONE);
         }else{
             holder.openDate.setText(timeCapsuleList.get(position).getOpenDate());
@@ -75,10 +71,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         holder.fileSize.setText(String.valueOf(timeCapsuleList.get(position).getUploads().size()));
         if(timeCapsuleList.get(position).getClose()){
             holder.stat.setBackgroundResource(R.drawable.icon_lock);
-            holder.capHolder.setBackgroundResource(R.color.purple_200);
+            holder.capHolder.setBackgroundResource(R.drawable.gradient_background_2);
         }else{
             holder.stat.setBackgroundResource(R.drawable.icon_unlock);
-            holder.capHolder.setBackgroundResource(R.color.teal_200);
+            holder.capHolder.setBackgroundResource(R.drawable.gradient_background);
         }
 
 
@@ -110,7 +106,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                             Log.d("TAG", "pin: "+timeCapsuleList.get(position).getPin());
                             if(userInput.equals(timeCapsuleList.get(position).getPin())){
 
-                                Intent intent = new Intent(view.getContext(), CapsuleDisplay.class);
+                                Intent intent = new Intent(view.getContext(), Capsule_Display.class);
                                 intent.putExtra("id", timeCapsuleList.get(position).getCapsuleID());
                                 context.startActivity(intent);
                                 dialog.dismiss();
@@ -135,7 +131,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                     }
 
                 }else {
-                    Intent intent = new Intent(view.getContext(), CapsuleDisplay.class);
+                    Intent intent = new Intent(view.getContext(), Capsule_Display.class);
                     intent.putExtra("id", timeCapsuleList.get(position).getCapsuleID());
                     context.startActivity(intent);
                 }

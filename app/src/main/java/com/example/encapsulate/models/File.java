@@ -19,18 +19,18 @@ public class File {
         return fileUrl;
     }
 
-    public void setFileUrl(String fileUrl) {
-        this.fileUrl = fileUrl;
-    }
 
     public String getCaption() {
         return caption;
     }
 
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
+
     public void setCaption(String caption) {
         this.caption = caption;
     }
-
 
     public String getFileType() {
         return fileType;

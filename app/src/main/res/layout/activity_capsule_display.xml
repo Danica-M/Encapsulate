@@ -2,17 +2,40 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/d"
+    android:id="@+id/constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cream"
     android:padding="10dp"
-    tools:context=".CapsuleDisplay">
+    tools:context=".Capsule_Display">
+
+    <TextView
+        android:id="@+id/currentSize2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
+        android:text="0"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/d_date"
+        app:layout_constraintTop_toBottomOf="@+id/d_date" />
+
+    <TextView
+        android:id="@+id/fileCap2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
+        android:text="/20"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/currentSize2"
+        app:layout_constraintTop_toBottomOf="@+id/d_date" />
 
     <TextView
         android:id="@+id/textView16"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
         android:text="Encapsulate"
+        android:textColor="@color/blue"
         app:layout_constraintEnd_toEndOf="@+id/d_loc"
         app:layout_constraintStart_toStartOf="@+id/d_loc"
         app:layout_constraintTop_toBottomOf="@+id/d_loc" />
@@ -27,6 +50,7 @@
         android:padding="10dp"
         android:showText="false"
         android:switchMinWidth="100dp"
+        android:textColor="@color/blue"
         android:textOff="false"
         android:textOn="true"
         android:textSize="14sp"
@@ -45,6 +69,7 @@
         android:gravity="start"
         android:inputType="numberPassword"
         android:padding="10dp"
+        android:textColor="@color/blue"
         android:textSize="14sp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@+id/textView18"
@@ -62,6 +87,7 @@
         android:gravity="start"
         android:inputType="date"
         android:padding="10dp"
+        android:textColor="@color/blue"
         android:textSize="14sp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,7 +99,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="120dp"
+        android:fontFamily="@font/montserrat"
         android:text="Open Date"
+        android:textColor="@color/blue"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/d_switch"
@@ -83,7 +111,9 @@
         android:id="@+id/textView18"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
         android:text="Pin"
+        android:textColor="@color/blue"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@+id/d_switch"
         app:layout_constraintStart_toEndOf="@+id/textView17"
@@ -99,6 +129,7 @@
         android:gravity="start"
         android:inputType="text"
         android:padding="10dp"
+        android:textColor="@color/blue"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/textView15"
         app:layout_constraintStart_toStartOf="@+id/textView15"
@@ -114,6 +145,7 @@
         android:gravity="start"
         android:inputType="textMultiLine"
         android:padding="10dp"
+        android:textColor="@color/blue"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/name"
@@ -131,13 +163,16 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/textView13"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintTop_toBottomOf="@+id/textView13"
+        android:textColor="@color/blue" />
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
         android:text="Name"
+        android:textColor="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -146,7 +181,9 @@
         android:id="@+id/textView14"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
         android:text="Description"
+        android:textColor="@color/blue"
         app:layout_constraintEnd_toEndOf="@+id/d_name"
         app:layout_constraintStart_toStartOf="@+id/d_name"
         app:layout_constraintTop_toBottomOf="@+id/d_name" />
@@ -155,7 +192,9 @@
         android:id="@+id/textView15"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
         android:text="Location"
+        android:textColor="@color/blue"
         app:layout_constraintEnd_toEndOf="@+id/d_desc"
         app:layout_constraintStart_toStartOf="@+id/d_desc"
         app:layout_constraintTop_toBottomOf="@+id/d_desc" />
@@ -163,7 +202,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/d_recycler"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="300dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -178,6 +217,7 @@
         android:layout_marginBottom="20dp"
         android:clickable="true"
         android:visibility="gone"
+        app:backgroundTint="@color/light_blue"
         app:layout_constraintBottom_toTopOf="@+id/d_delete"
         app:layout_constraintEnd_toEndOf="@+id/d_delete"
         app:srcCompat="@drawable/icon_capture"
@@ -190,6 +230,7 @@
         android:layout_marginBottom="20dp"
         android:clickable="true"
         android:visibility="gone"
+        app:backgroundTint="@color/light_blue"
         app:layout_constraintBottom_toTopOf="@+id/d_capture"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/icon_upload"
@@ -201,6 +242,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:clickable="true"
+        app:backgroundTint="@color/light_blue"
         app:layout_constraintBottom_toTopOf="@+id/d_close"
         app:layout_constraintEnd_toEndOf="@+id/d_close"
         app:srcCompat="@drawable/icon_edit" />
@@ -211,6 +253,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:clickable="true"
+        app:backgroundTint="@color/light_blue"
         app:layout_constraintBottom_toTopOf="@+id/d_edit"
         app:layout_constraintEnd_toEndOf="@+id/d_edit"
         app:srcCompat="@drawable/icon_delete" />
@@ -220,6 +263,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
+        app:backgroundTint="@color/light_blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/icon_close" />

@@ -34,25 +34,16 @@ public class TimeCapsule {
         return capsuleID;
     }
 
-    public void setCapsuleID(String capsuleID) {
-        this.capsuleID = capsuleID;
-    }
 
     public String getCapsuleName() {
         return capsuleName;
     }
 
-    public void setCapsuleName(String capsuleName) {
-        this.capsuleName = capsuleName;
-    }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public String getLocation() {
         return location;
@@ -66,44 +57,54 @@ public class TimeCapsule {
         return isClose;
     }
 
-    public void setClose(Boolean close) {
-        isClose = close;
-    }
 
     public String getOwner() {
         return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
     }
 
     public String getOpenDate() {
         return openDate;
     }
 
-    public void setOpenDate(String openDate) {
-        this.openDate = openDate;
-    }
 
     public String getPin() {
         return pin;
+    }
+
+    public List<File> getUploads() {
+        return uploads;
+    }
+
+    public void setCapsuleID(String capsuleID) {
+        this.capsuleID = capsuleID;
+    }
+
+    public void setCapsuleName(String capsuleName) {
+        this.capsuleName = capsuleName;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public void setClose(Boolean close) {
+        isClose = close;
+    }
+
+    public void setOpenDate(String openDate) {
+        this.openDate = openDate;
     }
 
     public void setPin(String pin) {
         this.pin = pin;
     }
 
-    public Integer getFileCapacity() {
-        return fileCapacity;
-    }
-
     public void setFileCapacity(Integer fileCapacity) {
         this.fileCapacity = fileCapacity;
-    }
-
-    public List<File> getUploads() {
-        return uploads;
     }
 
     public void setUploads(List<File> uploads) {

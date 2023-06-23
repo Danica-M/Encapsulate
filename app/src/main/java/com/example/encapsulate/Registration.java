@@ -38,7 +38,7 @@ public class Registration extends AppCompatActivity {
         edNameL = findViewById(R.id.lName);
         edEmail = findViewById(R.id.email);
         edPass = findViewById(R.id.password);
-        edPass2 = findViewById(R.id.password);
+        edPass2 = findViewById(R.id.password2);
         register = findViewById(R.id.registerButton);
         login = findViewById(R.id.loginText);
         mAuth = FirebaseAuth.getInstance();

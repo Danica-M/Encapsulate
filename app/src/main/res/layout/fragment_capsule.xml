@@ -10,16 +10,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/cream"
         android:padding="20dp">
 
         <TextView
             android:id="@+id/textView11"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="TIME CAPSULE"
+            android:fontFamily="@font/pacifico"
+            android:text="Time Capsules"
             android:textAlignment="center"
-            android:textSize="30sp"
+            android:textColor="@color/dark_blue"
+            android:textSize="45sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,8 +31,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
+            android:fontFamily="@font/montserrat"
             android:text="No Time Capsules"
             android:textAlignment="textStart"
+            android:textColor="@color/light_blue"
             android:textSize="20sp"
             android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="@+id/textView11"
@@ -40,7 +44,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/capsuleRecycler"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="480dp"
             android:layout_marginTop="60dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

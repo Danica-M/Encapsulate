@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -79,7 +79,7 @@ public class uploadImage extends AppCompatActivity {
                     String type = getFileExtension(uri);
                     String cap = et_caption.getText().toString();
 
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                    @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
                     Date currentDate = new Date();
                     String fileName = formatter.format(currentDate);
 
@@ -100,7 +100,7 @@ public class uploadImage extends AppCompatActivity {
                                             if(status==null){
                                                 fIntent = new Intent(uploadImage.this, FileUpload.class);
                                             }else{
-                                                fIntent = new Intent(uploadImage.this, CapsuleDisplay.class);
+                                                fIntent = new Intent(uploadImage.this, Capsule_Display.class);
                                                 fIntent.putExtra("id", cid);
                                                 fIntent.putExtra("stat", "yes");
                                             }

@@ -26,12 +26,12 @@ public class User {
         return userID;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
-
     public String getFirstName() {
         return firstName;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public void setFirstName(String firstName) {
@@ -65,7 +65,8 @@ public class User {
     public List<TimeCapsule> getTimeCaps() {
         return timeCaps;
     }
-    public void setTimeCaps(TimeCapsule tc) {
-        timeCaps.add(tc);
+
+    public void setTimeCaps(List<TimeCapsule> timeCaps) {
+        this.timeCaps = timeCaps;
     }
 }

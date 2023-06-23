@@ -25,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 public class Login extends AppCompatActivity {
@@ -45,6 +47,15 @@ public class Login extends AppCompatActivity {
         registerText = findViewById(R.id.registerText);
         mAuth = FirebaseAuth.getInstance();
         controller = new Controller();
+        Date today = new Date();
+        Calendar tDate = Calendar.getInstance();
+        tDate.setTime(today);
+        tDate.set(Calendar.HOUR_OF_DAY, 0);
+        tDate.set(Calendar.MINUTE, 0);
+        tDate.set(Calendar.SECOND, 0);
+        tDate.set(Calendar.MILLISECOND, 0);
+        controller.updateCapsule(tDate);
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +82,7 @@ public class Login extends AppCompatActivity {
                                         User currentUser = Controller.getCurrentUser();
                                         if (currentUser != null) {
                                             finishAffinity();
+
                                             Intent intent = new Intent(Login.this, Home.class);
                                             startActivity(intent);
                                             Toast.makeText(Login.this, "you are logged in successfully", Toast.LENGTH_SHORT).show();

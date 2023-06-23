@@ -8,8 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import android.app.DatePickerDialog;
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,15 +16,15 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
+
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
+
 import android.view.View;
 
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
+
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -45,19 +44,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
-import java.text.ParseException;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity  implements LocationListener {
 
-    private LocationManager fusedLocationProvider;
+
     TextView openDateLabel, pinLabel;
     EditText name, desc, loc, openDate, pin;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch isOpen;
     Controller controller;
     TimeCapsule timeCapsule;
@@ -166,18 +163,15 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
                         Controller.updateTimeCapsule(currentTCID,tName, tDesc, tLoc,owner, stat, tOpenDate, tPin);
                         Intent nIntent = new Intent(MainActivity.this, FileUpload.class);
                         startActivity(nIntent);
-                        Toast.makeText(MainActivity.this, "1", Toast.LENGTH_SHORT).show();
 
                     }else {
-                        Toast.makeText(MainActivity.this, "2", Toast.LENGTH_SHORT).show();
                         timeCapsule = Controller.addTimeCapsule(tName, tDesc, tLoc, owner, stat, tOpenDate, tPin);
                         if (timeCapsule != null) {
-                            Log.d("TAG", "reached");
                             Controller.setCurrentTCID(timeCapsule.getCapsuleID());
                             Intent nIntent = new Intent(MainActivity.this, FileUpload.class);
                             startActivity(nIntent);
                         } else {
-                            Log.d("TAG", "not saved");
+                            Toast.makeText(MainActivity.this, "Error occurred!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -231,6 +225,7 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 TimeCapsule timeCapsule = snapshot.getValue(TimeCapsule.class);
+                assert timeCapsule != null;
                 name.setText(timeCapsule.getCapsuleName());
                 desc.setText(timeCapsule.getDescription());
                 loc.setText(timeCapsule.getLocation());
@@ -256,6 +251,7 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
 
 
     }
+    @SuppressLint("SetTextI18n")
     public void locationFunc(Location location){
         try {
             Geocoder geocoder = new Geocoder(this, Locale.getDefault());

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
+    android:background="@color/cream"
+    android:padding="20dp"
     tools:context=".uploadImage">
 
     <TextView
@@ -12,17 +13,23 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/montserrat"
         android:text="Caption"
+        android:textColor="@color/blue"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView_1"
         app:layout_constraintStart_toStartOf="@+id/imageView_1"
         app:layout_constraintTop_toBottomOf="@+id/imageView_1" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/chooseBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/light_blue"
+        android:fontFamily="@font/montserrat"
         android:text="Choose File"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -30,7 +37,7 @@
     <ImageView
         android:id="@+id/imageView_1"
         android:layout_width="0dp"
-        android:layout_height="400dp"
+        android:layout_height="350dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="@+id/chooseBtn"
         app:layout_constraintStart_toStartOf="@+id/chooseBtn"
@@ -48,23 +55,28 @@
         android:lines="4"
         android:maxLines="10"
         android:minLines="4"
+        android:padding="5dp"
         android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="@+id/textView7"
         app:layout_constraintStart_toStartOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addBtn_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/positive_button"
+        android:fontFamily="@font/montserrat"
         android:text="Add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/captionText_1" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/cancelBtn_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/negative_button"
+        android:fontFamily="@font/montserrat"
         android:text="cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -73,10 +85,11 @@
         android:id="@+id/textView8"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:text="Upload Image File"
+        android:fontFamily="@font/montserrat"
+        android:text="UPLOAD IMAGE FILE"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/blue"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -35,7 +35,6 @@ public class Capture_Image extends AppCompatActivity {
     ImageView imgView;
     EditText et_caption;
     Button captureBtn, addBtn, cancelBtn;
-    ProgressDialog progressDialog;
     Intent intent2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +75,7 @@ public class Capture_Image extends AppCompatActivity {
                     String type = getFileExtension(uri);
                     String cap = et_caption.getText().toString();
 
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                    @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
                     Date currentDate = new Date();
                     String fileName = formatter.format(currentDate);
 
@@ -99,7 +98,7 @@ public class Capture_Image extends AppCompatActivity {
                                             if(status==null){
                                                 fIntent = new Intent(Capture_Image.this, FileUpload.class);
                                             }else{
-                                                fIntent = new Intent(Capture_Image.this, CapsuleDisplay.class);
+                                                fIntent = new Intent(Capture_Image.this, Capsule_Display.class);
                                                 fIntent.putExtra("id", cid);
                                                 fIntent.putExtra("stat", "yes");
                                             }

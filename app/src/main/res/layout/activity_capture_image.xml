@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
+    android:background="@color/cream"
+    android:padding="20dp"
     tools:context=".Capture_Image">
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
         android:text="Caption"
+        android:textColor="@color/blue"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView_2"
         app:layout_constraintStart_toStartOf="@+id/imageView_2"
@@ -21,21 +24,26 @@
         android:id="@+id/textView9"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:text="Capture an Image"
+        android:fontFamily="@font/montserrat"
+        android:text="CAPTURE AN IMAGE"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/blue"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/capturebtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Take a Photo"
+        android:background="@color/light_blue"
+        android:fontFamily="@font/montserrat"
+        android:text="OPEN CAMERA"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
@@ -43,7 +51,7 @@
     <ImageView
         android:id="@+id/imageView_2"
         android:layout_width="0dp"
-        android:layout_height="400dp"
+        android:layout_height="350dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="@+id/capturebtn"
         app:layout_constraintStart_toStartOf="@+id/capturebtn"
@@ -61,23 +69,28 @@
         android:lines="4"
         android:maxLines="10"
         android:minLines="4"
+        android:padding="5dp"
         android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="@+id/textView10"
         app:layout_constraintStart_toStartOf="@+id/textView10"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addBtn_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/positive_button"
+        android:fontFamily="@font/montserrat"
         android:text="Add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/captionText_2" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/cancelBtn_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/negative_button"
+        android:fontFamily="@font/montserrat"
         android:text="cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

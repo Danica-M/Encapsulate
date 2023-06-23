@@ -1,8 +1,9 @@
 package com.example.encapsulate.models;
 
 import android.app.DatePickerDialog;
+
 import android.content.Context;
-import android.net.Uri;
+
 import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -10,9 +11,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.encapsulate.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,11 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -64,7 +66,10 @@ public class Controller {
         Controller.currentTCID = currentTCID;
     }
 
-    public static FirebaseStorage getFirebaseStorage(){return firebaseStorage;}
+    public static FirebaseStorage getFirebaseStorage() {
+        return firebaseStorage;
+    }
+
     public static User getCurrentUser() {
         return currentUser;
     }
@@ -73,7 +78,7 @@ public class Controller {
         currentUser = user;
     }
 
-    public static void NewList(){
+    public static void NewList() {
         fileList.clear();
     }
 
@@ -81,9 +86,13 @@ public class Controller {
         Controller.fileList = fileList;
     }
 
-    public static List<File> getFileList(){return fileList;}
+    public static List<File> getFileList() {
+        return fileList;
+    }
 
-    public static void addItem(File item){fileList.add(item);}
+    public static void addItem(File item) {
+        fileList.add(item);
+    }
 
 
     // validation for firstname and lastname
@@ -92,6 +101,7 @@ public class Controller {
         Matcher matcher = pattern.matcher(name);
         return matcher.matches();
     }
+
     public User registerUser(String userID, String fName, String lName, String email, String password) {
         try {
             User user = new User(userID, fName, lName, email, password);
@@ -103,17 +113,18 @@ public class Controller {
         }
     }
 
-    public static TimeCapsule addTimeCapsule(String capsuleName, String description, String location, String owner, Boolean isClose, String openDate, String pin){
-        try{
+    public static TimeCapsule addTimeCapsule(String capsuleName, String description, String location, String owner, Boolean isClose, String openDate, String pin) {
+        try {
             String capsuleID = reference.push().getKey();
-            TimeCapsule timeCapsule = new TimeCapsule(capsuleID, capsuleName, description, location,owner, isClose, openDate, pin);
+            TimeCapsule timeCapsule = new TimeCapsule(capsuleID, capsuleName, description, location, owner, isClose, openDate, pin);
             reference.child("timeCapsules").child(Objects.requireNonNull(capsuleID)).setValue(timeCapsule);
             return timeCapsule;
-        }catch(Exception e){
-            Log.d("TAG", "error: "+e.getMessage());
+        } catch (Exception e) {
+            Log.d("TAG", "error: " + e.getMessage());
             return null;
         }
     }
+
     public static void deleteTimeCapsule(String capsuleID, Context context) {
         DatabaseReference capsuleRef = FirebaseDatabase.getInstance().getReference("timeCapsules").child(capsuleID);
         capsuleRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -127,7 +138,8 @@ public class Controller {
             }
         });
     }
-    public static void updateTimeCapsule(String capsuleID, String capsuleName, String description, String location,String owner, Boolean isClose, String openDate, String pin) {
+
+    public static void updateTimeCapsule(String capsuleID, String capsuleName, String description, String location, String owner, Boolean isClose, String openDate, String pin) {
         DatabaseReference capsuleRef = reference.child("timeCapsules").child(capsuleID);
         capsuleRef.child("capsuleName").setValue(capsuleName);
         capsuleRef.child("description").setValue(description);
@@ -140,32 +152,33 @@ public class Controller {
     }
 
 
-    public static void addFile(String timeCapsuleID, List<File> fileList){
-        try{
+    public static void addFile(String timeCapsuleID, List<File> fileList) {
+        try {
 
             DatabaseReference tRef = reference.child("timeCapsules").child(timeCapsuleID);
             tRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     TimeCapsule timeCapsule = snapshot.getValue(TimeCapsule.class);
-                    if(timeCapsule!=null){
+                    if (timeCapsule != null) {
                         tRef.child("uploads").setValue(fileList);
                     }
                     Controller.setCurrentTCID(null);
                     Controller.NewList();
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
             });
 
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void deleteStorageFiles(List<File> fileList){
+    public static void deleteStorageFiles(List<File> fileList) {
         for (File fileObject : fileList) {
             String fileUrl = fileObject.getFileUrl();
             StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(fileUrl);
@@ -200,5 +213,46 @@ public class Controller {
         datePickerDialog.show();
     }
 
+    public void updateCapsule(Calendar tDate) {
+
+        DatabaseReference tReference = reference.child("timeCapsules");
+        tReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot tcItems : snapshot.getChildren()) {
+                    TimeCapsule tc = tcItems.getValue(TimeCapsule.class);
+                    try {
+                        if (tc != null && tc.getClose() != null && tc.getClose()) {
+                            Date eDate = getSdf().parse(tc.getOpenDate());
+                            Calendar cal2 = Calendar.getInstance();
+                            cal2.setTime(Objects.requireNonNull(eDate));
+                            cal2.set(Calendar.HOUR_OF_DAY, 0);
+                            cal2.set(Calendar.MINUTE, 0);
+                            cal2.set(Calendar.SECOND, 0);
+                            cal2.set(Calendar.MILLISECOND, 0);
+
+                            DatabaseReference timeCapsuleRef = reference.child("timeCapsules").child(tc.getCapsuleID());
+                            if (cal2.compareTo(tDate) == 0) {
+                                timeCapsuleRef.child("close").setValue(false);
+                                timeCapsuleRef.child("openDate").setValue("");
+                                timeCapsuleRef.child("pin").setValue("");
+                            }
+                        }
+
+
+                    } catch (ParseException e) {
+
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 }

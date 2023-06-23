@@ -3,22 +3,20 @@ package com.example.encapsulate;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.encapsulate.models.Controller;
-import com.example.encapsulate.models.File;
 import com.example.encapsulate.models.TimeCapsule;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -26,18 +24,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.List;
-
-public class CapsuleDisplay extends AppCompatActivity {
-
-    List<File> files;
+public class Capsule_Display extends AppCompatActivity {
     Controller controller;
 
     FloatingActionButton upload, capture,edit, delete, close;
     EditText d_name, d_desc, d_loc, d_date,d_pin;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch d_switch;
     RecyclerView d_recycler;
-
+    TextView size2;
     GridAdapter gridAdapter;
     String tid, stat;
     Intent dIntent;
@@ -48,8 +43,6 @@ public class CapsuleDisplay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capsule_display);
-
-
         controller = new Controller();
         close = findViewById(R.id.d_close);
         edit = findViewById(R.id.d_edit);
@@ -65,14 +58,12 @@ public class CapsuleDisplay extends AppCompatActivity {
         d_recycler = findViewById(R.id.d_recycler);
         d_recycler.setLayoutManager(new GridLayoutManager(this,2));
 
+        size2 = findViewById(R.id.currentSize2);
         getQuestions();
 
         dIntent = getIntent();
         tid = dIntent.getStringExtra("id");
         stat = dIntent.getStringExtra("stat");
-        Log.d("TAG", "stat: "+stat);
-
-
         if(stat!=null){
             d_name.setEnabled(true);
             d_desc.setEnabled(true);
@@ -84,10 +75,8 @@ public class CapsuleDisplay extends AppCompatActivity {
             upload.setVisibility(View.VISIBLE);
             capture.setVisibility(View.VISIBLE);
             d_recycler.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
-            gridAdapter = new GridAdapter(CapsuleDisplay.this, Controller.getFileList(), 0);
+            gridAdapter = new GridAdapter(Capsule_Display.this, Controller.getFileList(), 0);
             d_recycler.setAdapter(gridAdapter);
-
-        }else{
 
         }
 
@@ -98,7 +87,7 @@ public class CapsuleDisplay extends AppCompatActivity {
         d_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Controller.setDate(d_date, CapsuleDisplay.this);
+                Controller.setDate(d_date, Capsule_Display.this);
             }
         });
         edit.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +103,7 @@ public class CapsuleDisplay extends AppCompatActivity {
                     edit.setImageResource(R.drawable.icon_save);
                     upload.setVisibility(View.VISIBLE);
                     capture.setVisibility(View.VISIBLE);
-                    gridAdapter = new GridAdapter(CapsuleDisplay.this, Controller.getFileList(), 0);
+                    gridAdapter = new GridAdapter(Capsule_Display.this, Controller.getFileList(), 0);
                     d_recycler.setAdapter(gridAdapter);
 
                 }else{
@@ -127,14 +116,14 @@ public class CapsuleDisplay extends AppCompatActivity {
 
 
                     if (TextUtils.isEmpty(tName) || TextUtils.isEmpty(tDesc)) {
-                        Toast.makeText(CapsuleDisplay.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Capsule_Display.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
                     } else if (stat2 && (TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin))) {
-                        Toast.makeText(CapsuleDisplay.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Capsule_Display.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
                     } else {
                         Controller.updateTimeCapsule(Controller.getCurrentTCID(), tName, tDesc, tLoc, Controller.getCurrentUser().getUserID(), stat2, tOpenDate, tPin);
                         Controller.addFile(Controller.getCurrentTCID(), Controller.getFileList());
-                        Toast.makeText(CapsuleDisplay.this, "Time Capsule successfully updated", Toast.LENGTH_SHORT).show();
-                        Intent nIntent = new Intent(CapsuleDisplay.this, Home.class);
+                        Toast.makeText(Capsule_Display.this, "Time Capsule successfully updated", Toast.LENGTH_SHORT).show();
+                        Intent nIntent = new Intent(Capsule_Display.this, Home.class);
                         startActivity(nIntent);
                     }
                 }
@@ -143,18 +132,18 @@ public class CapsuleDisplay extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new androidx.appcompat.app.AlertDialog.Builder(CapsuleDisplay.this)
+                new androidx.appcompat.app.AlertDialog.Builder(Capsule_Display.this)
                         .setTitle("Time Capsule Deletion Confirmation")
                         .setMessage("Are you sure you want to delete this time capsule?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if(Controller.getCurrentTCID()==null){
-                                    Intent intent = new Intent(CapsuleDisplay.this, Home.class);
+                                    Intent intent = new Intent(Capsule_Display.this, Home.class);
                                     startActivity(intent);
                                 }else{
                                     Controller.deleteTimeCapsule(Controller.getCurrentTCID(), getApplicationContext());
-                                    Intent intent = new Intent(CapsuleDisplay.this, Home.class);
+                                    Intent intent = new Intent(Capsule_Display.this, Home.class);
                                     startActivity(intent);
                                     Controller.setCurrentTCID(null);
                                     if(Controller.getFileList().size()>0){
@@ -173,43 +162,52 @@ public class CapsuleDisplay extends AppCompatActivity {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                stat2 = d_switch.isChecked();
-                tName = d_name.getText().toString().toUpperCase();
-                tDesc = d_desc.getText().toString();
-                tLoc = d_loc.getText().toString();
-                tOpenDate = d_date.getText().toString();
-                tPin = d_pin.getText().toString();
-                saveDetails();
+                if(Controller.fileList.size()==20){
+                    Toast.makeText(Capsule_Display.this, "You have reach the maximum number of files.", Toast.LENGTH_SHORT).show();
+                }else{
+                    stat2 = d_switch.isChecked();
+                    tName = d_name.getText().toString();
+                    tDesc = d_desc.getText().toString();
+                    tLoc = d_loc.getText().toString();
+                    tOpenDate = d_date.getText().toString();
+                    tPin = d_pin.getText().toString();
+                    saveDetails();
 
-                Intent intent = new Intent(CapsuleDisplay.this, uploadImage.class);
-                intent.putExtra("type", "edit");
-                intent.putExtra("id", Controller.getCurrentTCID());
-                startActivity(intent);
+                    Intent intent = new Intent(Capsule_Display.this, uploadImage.class);
+                    intent.putExtra("type", "edit");
+                    intent.putExtra("id", Controller.getCurrentTCID());
+                    startActivity(intent);
+                }
             }
         });
 
         capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                stat2 = d_switch.isChecked();
-                tName = d_name.getText().toString().toUpperCase();
-                tDesc = d_desc.getText().toString();
-                tLoc = d_loc.getText().toString();
-                tOpenDate = d_date.getText().toString();
-                tPin = d_pin.getText().toString();
-                saveDetails();
+                if(Controller.fileList.size()==20){
+                    Toast.makeText(Capsule_Display.this, "You have reach the maximum number of files.", Toast.LENGTH_SHORT).show();
+                }else{
+                    stat2 = d_switch.isChecked();
+                    tName = d_name.getText().toString().toUpperCase();
+                    tDesc = d_desc.getText().toString();
+                    tLoc = d_loc.getText().toString();
+                    tOpenDate = d_date.getText().toString();
+                    tPin = d_pin.getText().toString();
+                    saveDetails();
 
-                Intent intent = new Intent(CapsuleDisplay.this, Capture_Image.class);
-                intent.putExtra("type", "edit");
-                intent.putExtra("id", Controller.getCurrentTCID());
-                startActivity(intent);
+                    Intent intent = new Intent(Capsule_Display.this, Capture_Image.class);
+                    intent.putExtra("type", "edit");
+                    intent.putExtra("id", Controller.getCurrentTCID());
+                    startActivity(intent);
+                }
+
             }
         });
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CapsuleDisplay.this, Home.class);
+                Intent intent = new Intent(Capsule_Display.this, Home.class);
                 startActivity(intent);
                 Controller.setCurrentTCID(null);
 
@@ -234,7 +232,7 @@ public class CapsuleDisplay extends AppCompatActivity {
                         d_switch.setChecked(capsule.getClose());
                         if(stat==null && capsule.getUploads().size()>0){
                             Controller.setFileList(capsule.getUploads());
-                            gridAdapter = new GridAdapter(CapsuleDisplay.this, Controller.getFileList(), 1);
+                            gridAdapter = new GridAdapter(Capsule_Display.this, Controller.getFileList(), 1);
                             d_recycler.setAdapter(gridAdapter);
                         }
                         if(capsule.getClose()){
@@ -243,6 +241,7 @@ public class CapsuleDisplay extends AppCompatActivity {
                         }
                     }
                 }
+                size2.setText(String.valueOf(Controller.getFileList().size()));
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -253,10 +252,10 @@ public class CapsuleDisplay extends AppCompatActivity {
 
     public void saveDetails(){
         if (TextUtils.isEmpty(tName) || TextUtils.isEmpty(tDesc)) {
-            Toast.makeText(CapsuleDisplay.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Capsule_Display.this, "Please provide time capsule name and description.", Toast.LENGTH_SHORT).show();
         } else if (stat2) {
             if(TextUtils.isEmpty(tOpenDate) || TextUtils.isEmpty(tPin))
-                Toast.makeText(CapsuleDisplay.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Capsule_Display.this, "Please set open date and pin!", Toast.LENGTH_SHORT).show();
         } else {
             Controller.updateTimeCapsule(Controller.getCurrentTCID(), tName, tDesc, tLoc, Controller.getCurrentUser().getUserID(), stat2, tOpenDate, tPin);
         }

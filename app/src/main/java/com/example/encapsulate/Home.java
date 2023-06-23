@@ -3,6 +3,7 @@ package com.example.encapsulate;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +12,12 @@ import android.view.View;
 
 import com.example.encapsulate.fragments.Capsule_Fragment;
 import com.example.encapsulate.fragments.Home_Fragment;
-import com.example.encapsulate.fragments.Profile_Fragment;
+import com.example.encapsulate.fragments.Location_Fragment;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+
 
 public class Home extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
@@ -25,6 +28,7 @@ public class Home extends AppCompatActivity implements BottomNavigationView.OnNa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
 
         fab = findViewById(R.id.fab);
         bottomNavigationView = findViewById(R.id.bottomNavBar);
@@ -43,6 +47,7 @@ public class Home extends AppCompatActivity implements BottomNavigationView.OnNa
 
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
@@ -63,7 +68,7 @@ public class Home extends AppCompatActivity implements BottomNavigationView.OnNa
             case R.id.locations:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frameLayout, new Profile_Fragment())
+                        .replace(R.id.frameLayout, new Location_Fragment())
                         .commit();
                 return true;
             case R.id.exit:
@@ -91,4 +96,5 @@ public class Home extends AppCompatActivity implements BottomNavigationView.OnNa
                     }
                 }).show();
     }
+
 }

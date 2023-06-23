@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:background="@color/purple_200"
+        android:background="@drawable/gradient_background_2"
         android:padding="10dp">
 
 
@@ -42,7 +42,9 @@
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/pacifico"
                 android:text="Time Capsule Name"
+                android:textColor="@color/dark_blue"
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
@@ -51,7 +53,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/icon_desc"
+                android:fontFamily="@font/montserrat"
+                android:maxLines="1"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="horizontal"
                 android:text="Description"
+                android:textColor="@color/dark_blue"
                 android:textSize="18sp" />
 
             <TextView
@@ -59,7 +66,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/icon_location"
+                android:fontFamily="@font/montserrat"
+                android:maxLines="1"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="horizontal"
                 android:text="Location"
+                android:textColor="@color/dark_blue"
                 android:textSize="18sp" />
 
             <TextView
@@ -67,7 +79,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/icon_date"
+                android:fontFamily="@font/montserrat"
                 android:text="Open Date"
+                android:textColor="@color/dark_blue"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -75,7 +89,9 @@
             android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
             android:text="Files:"
+            android:textColor="@color/cream"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/stat_btn"
             app:layout_constraintStart_toStartOf="@+id/stat_btn"
@@ -85,8 +101,11 @@
             android:id="@+id/files_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
             android:text="10"
+            android:textColor="@color/cream"
             android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/textView12"
             app:layout_constraintStart_toStartOf="@+id/textView12"
             app:layout_constraintTop_toBottomOf="@+id/textView12" />

@@ -28,11 +28,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/pacifico"
                 android:text="Register"
                 android:textAlignment="center"
-                android:textColor="@color/purple_200"
-                android:textSize="36sp"
+                android:textColor="@color/blue"
+                android:textSize="45sp"
                 android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/fName"
                 android:layout_width="match_parent"
@@ -45,6 +47,7 @@
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background" />
+
             <EditText
                 android:id="@+id/lName"
                 android:layout_width="match_parent"
@@ -84,6 +87,7 @@
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background" />
+
             <EditText
                 android:id="@+id/password2"
                 android:layout_width="match_parent"
@@ -103,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
-                android:backgroundTint="@color/purple_200"
+                android:backgroundTint="@color/blue"
                 android:text="Register"
                 android:textSize="18sp"
                 app:cornerRadius="20dp" />
@@ -117,7 +121,7 @@
         android:padding="8dp"
         android:text="Already have an account? Login Here"
         android:textAlignment="center"
-        android:textColor="@color/purple_200"
+        android:textColor="@color/dark_blue"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/cardView"
         app:layout_constraintStart_toStartOf="@+id/cardView"
