@@ -77,21 +77,23 @@ public class LocationFragment extends Fragment {
         tcRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot capsItem: snapshot.getChildren()){
+                for (DataSnapshot capsItem : snapshot.getChildren()) {
                     TimeCapsule capsule = capsItem.getValue(TimeCapsule.class);
-                    assert capsule != null;
-                    String location = capsule.getLocation();
 
-                    if (!uniqueLocations.contains(location) && !Objects.equals(location, "")) {
-                        uniqueLocations.add(location);
+                    if (capsule != null && capsule.getOwner().equals(Controller.getCurrentUser().getUserID())) {
+                        String location = capsule.getLocation();
+
+                        if (!uniqueLocations.contains(location) && !Objects.equals(location, "")) {
+                            uniqueLocations.add(location);
+                        }
                     }
-                    }
-                if(uniqueLocations.size()==0) {
+
+                }
+                if (uniqueLocations.size() == 0) {
                     none2.setVisibility(View.VISIBLE);
                 }
                 locationAdapter.notifyDataSetChanged();
-                Log.d("TAG", "loc:"+uniqueLocations);
-                }
+            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

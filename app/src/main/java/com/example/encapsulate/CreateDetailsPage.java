@@ -191,26 +191,26 @@ public class CreateDetailsPage extends AppCompatActivity  implements LocationLis
                 } else {
                     // Permissions are already granted, proceed with location retrieval
                     fusedLocationProviderClient.getLastLocation()
-                            .addOnSuccessListener(CreateDetailsPage.this, new OnSuccessListener<Location>() {
-                                @Override
-                                public void onSuccess(Location location) {
-                                    if (location != null) {
-                                        // Location retrieved successfully
-                                        onLocationChanged(location);
-                                        locationFunc(location);
-                                    } else {
-                                        // Location is null, handle the case
-                                        Toast.makeText(CreateDetailsPage.this, "Unable to retrieve location", Toast.LENGTH_SHORT).show();
-                                    }
+                        .addOnSuccessListener(CreateDetailsPage.this, new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                if (location != null) {
+                                    // Location retrieved successfully
+                                    onLocationChanged(location);
+                                    locationFunc(location);
+                                } else {
+                                    // Location is null, handle the case
+                                    Toast.makeText(CreateDetailsPage.this, "Unable to retrieve location", Toast.LENGTH_SHORT).show();
                                 }
-                            })
-                            .addOnFailureListener(CreateDetailsPage.this, new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    // Failed to retrieve location
-                                    Toast.makeText(CreateDetailsPage.this, "Failed to retrieve location: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                            }
+                        })
+                        .addOnFailureListener(CreateDetailsPage.this, new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Failed to retrieve location
+                                Toast.makeText(CreateDetailsPage.this, "Failed to retrieve location: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                 }
             }
         });

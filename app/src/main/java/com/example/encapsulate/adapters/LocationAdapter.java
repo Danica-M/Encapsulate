@@ -61,10 +61,6 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         holder.direct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (addressList.isEmpty() || position >= addressList.size()) {
-//                    Toast.makeText(context, "Address not available", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
                 double latitude = addressList.get(position).getLatitude();
                 double longitude = addressList.get(position).getLongitude();
 
